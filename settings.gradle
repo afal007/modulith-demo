@@ -1,0 +1,6 @@
+rootProject.name = 'modulith-demo'
+include 'cargo-management'
+include 'bootstrap'
+include 'catalogue-management'
+include 'client-management'
+

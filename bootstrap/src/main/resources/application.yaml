@@ -1,0 +1,88 @@
+server:
+  forward-headers-strategy: none
+  port: 8080
+  servlet:
+    context-path: /modulith-demo
+hostname: localdev
+
+config:
+  server:
+    url: http://localhost:${server.port}
+
+  datasource:
+    server: localhost:5432
+    ssl: false
+    sslmode: disable
+    database: modulith
+    username: dev
+    password: pwd
+
+  keycloak:
+    server: http://localhost:8180
+    realm: modulith
+    client: modulith
+    secret: xOWbdLzfyqgxrg9w2TPx2NvNr8oN5464
+
+spring:
+  application:
+    name: modulith
+
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          issuer-uri: ${config.keycloak.server}/realms/${config.keycloak.realm}
+      client:
+        provider:
+          keycloak:
+            authorization-uri: ${config.keycloak.server}/realms/${config.keycloak.realm}/protocol/openid-connect/auth
+            issuer-uri: ${config.keycloak.server}/realms/${config.keycloak.realm}
+            jwk-set-uri: ${config.keycloak.server}/realms/${config.keycloak.realm}/protocol/openid-connect/certs
+            token-uri: ${config.keycloak.server}/realms/${config.keycloak.realm}/protocol/openid-connect/token
+            user-info-uri: ${config.keycloak.server}/realms/${config.keycloak.realm}/protocol/openid-connect/userinfo
+            user-name-attribute: preferred_username
+        registration:
+          keycloak:
+            provider: keycloak
+            client-id: ${config.keycloak.client}
+            client-secret: ${config.keycloak.secret}
+            authorization-grant-type: client_credentials
+  jpa:
+    show-sql: false
+    database: postgresql
+    open-in-view: false
+    hibernate:
+      ddl-auto: none
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+        format_sql: true
+        default_schema: integrations_atisu_connector
+  datasource:
+    driver-class-name: org.postgresql.Driver
+    url: jdbc:postgresql://${config.datasource.server}/${config.datasource.database}?&ApplicationName=${hostname}&ssl=${config.datasource.ssl}&sslmode=${config.datasource.sslmode}
+    username: ${config.datasource.username}
+    password: ${config.datasource.password}
+    hikari:
+      username: ${spring.datasource.username}
+      password: ${spring.datasource.password}
+      idle-timeout: 30000
+      minimum-idle: 2
+      maximum-pool-size: 4
+      connection-timeout: 20000
+  liquibase:
+    enabled: true
+    change-log: classpath:/db/changelog/db.changelog-master.xml
+    liquibase-schema: migration
+  management:
+    endpoints:
+      web:
+        base-path: "/actuator"
+        exposure:
+          include: prometheus, health
+    endpoint:
+      health:
+        probe:
+          enabled: true
+    server:
+      port: 8081

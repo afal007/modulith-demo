@@ -1,0 +1,112 @@
+plugins {
+  id 'java'
+  id 'checkstyle'
+  id 'org.sonarqube' version '3.4.0.2513'
+  id 'org.asciidoctor.jvm.convert' version '3.3.2'
+  id 'io.spring.dependency-management' version '1.1.0'
+}
+
+allprojects {
+  apply from: rootProject.file('versions.gradle')
+
+  repositories {
+    mavenCentral()
+  }
+}
+
+subprojects {
+  apply plugin: 'idea'
+  apply plugin: 'java'
+  apply plugin: 'checkstyle'
+  apply plugin: 'org.sonarqube'
+  apply plugin: 'org.asciidoctor.jvm.convert'
+  apply plugin: 'io.spring.dependency-management'
+
+  sonarqube {
+    properties {
+      property 'sonar.projectKey', ''
+      property 'sonar.qualitygate.wait', true
+    }
+  }
+
+  checkstyle {
+    toolVersion '9.0.1'
+    configFile rootProject.file('config/checkstyle/checkstyle.xml')
+  }
+
+  checkstyleMain {
+    source = 'src/main/java'
+  }
+
+  checkstyleTest {
+    source = 'src/test/java'
+  }
+
+  tasks.withType(JavaCompile) {
+    sourceCompatibility = 17
+    targetCompatibility = 17
+    options.encoding = 'UTF-8'
+  }
+
+  dependencyManagement {
+    imports {
+      mavenBom "org.springframework.boot:spring-boot-dependencies:${versions['spring-boot']}"
+      mavenBom "org.springframework.cloud:spring-cloud-dependencies:${versions['spring-cloud']}"
+    }
+  }
+
+  test {
+    useJUnitPlatform {
+      excludeTags "integration", "contract"
+    }
+  }
+
+  task('integrationTest', type: Test, group: 'verification') {
+    useJUnitPlatform {
+      includeTags 'integration'
+    }
+
+    dependsOn testClasses
+  }
+
+  task('contractTest', type: Test, group: 'verification') {
+    useJUnitPlatform {
+      includeTags 'contract'
+    }
+
+    dependsOn testClasses
+  }
+
+  check.dependsOn integrationTest, contractTest
+}
+
+
+
+
+//
+//dependencies {
+//  implementation 'org.springframework.boot:spring-boot-starter-actuator'
+//  implementation 'org.springframework.boot:spring-boot-starter-data-elasticsearch'
+//  implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+//  implementation 'org.springframework.boot:spring-boot-starter-mail'
+//  implementation 'org.springframework.boot:spring-boot-starter-oauth2-client'
+//  implementation 'org.springframework.boot:spring-boot-starter-oauth2-resource-server'
+//  implementation 'org.springframework.boot:spring-boot-starter-quartz'
+//  implementation 'org.springframework.boot:spring-boot-starter-security'
+//  implementation 'org.springframework.boot:spring-boot-starter-web'
+//  implementation 'io.micrometer:micrometer-tracing-bridge-brave'
+//  implementation 'io.zipkin.reporter2:zipkin-reporter-brave'
+//  implementation 'org.liquibase:liquibase-core'
+//  implementation 'org.springframework.cloud:spring-cloud-starter-openfeign'
+//  compileOnly 'org.projectlombok:lombok'
+//  runtimeOnly 'io.micrometer:micrometer-registry-prometheus'
+//  runtimeOnly 'org.postgresql:postgresql'
+//  annotationProcessor 'org.springframework.boot:spring-boot-configuration-processor'
+//  annotationProcessor 'org.projectlombok:lombok'
+//  testImplementation 'org.springframework.boot:spring-boot-starter-test'
+//  testImplementation 'org.springframework.security:spring-security-test'
+//}
+//
+//processResources {
+//  from('api/src/main/resources') { into 'static' }
+//}

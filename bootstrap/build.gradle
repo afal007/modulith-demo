@@ -1,0 +1,31 @@
+plugins {
+  id 'org.springframework.boot' version '3.0.6'
+}
+
+dependencies {
+  implementation 'org.liquibase:liquibase-core'
+  implementation 'org.springframework.boot:spring-boot-starter-web'
+  implementation 'org.springframework.boot:spring-boot-starter-actuator'
+  implementation 'org.springframework.boot:spring-boot-starter-security'
+  implementation 'org.springframework.boot:spring-boot-starter-oauth2-client'
+  implementation 'org.springframework.boot:spring-boot-starter-oauth2-resource-server'
+
+  developmentOnly 'org.springframework.boot:spring-boot-devtools'
+
+  runtimeOnly 'org.postgresql:postgresql'
+  implementation group: 'net.lbruun.springboot', name: 'preliquibase-spring-boot-starter', version: versions['preliquibase']
+
+  testImplementation 'org.junit.jupiter:junit-jupiter-api'
+  testImplementation 'org.springframework.boot:spring-boot-starter-test'
+
+//  testImplementation "org.mockito:mockito-junit-jupiter:${Versions.mockito}"
+//  testImplementation "com.tngtech.archunit:archunit-junit5:${Versions.archunit}"
+}
+
+bootJar {
+  archiveClassifier.set('boot')
+}
+
+jar {
+  enabled = false
+}
