@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<databaseChangeLog
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+  xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.1.xsd">
+
+  <changeSet id="1" author="Fal_AE">
+    <sql>
+      create schema IF not exists CARGO_MANAGEMENT;
+    </sql>
+  </changeSet>
+
+  <changeSet id="2" author="Fal_AE">
+    <preConditions onFail="MARK_RAN">
+      <not>
+        <tableExists schemaName="CARGO_MANAGEMENT" tableName="TRANSPORTATION_REQUEST"/>
+      </not>
+    </preConditions>
+    <sql>
+      create table CARGO_MANAGEMENT.TRANSPORTATION_REQUEST (
+        ID                       bigserial primary key,
+        CREATED_AT               timestamptz not null default NOW(),
+        CREATED_BY               uuid        not null,
+        FREIGHT                  numeric(10, 12),
+        CARGO_TYPE               varchar,
+        CARGO_COST               numeric(10, 12),
+        CARGO_VOLUME             float,
+        CARGO_WEIGHT             float,
+        TRAILER_TYPE             varchar,
+        TRAILER_LOADING_TYPE     varchar,
+        TRAILER_VOLUME           float,
+        TRAILER_LOAD_CAPACITY    float,
+        TRAILER_TEMPERATURE_FROM integer,
+        TRAILER_TEMPERATURE_TO   integer,
+        TRANSPORTATION_TYPE      varchar,
+        SOURCE_NUMBER            varchar
+      );
+
+      COMMENT
+      on table CARGO_MANAGEMENT.TRANSPORTATION_REQUEST is E'Заявка на перевозку';
+      COMMENT
+      on column CARGO_MANAGEMENT.TRANSPORTATION_REQUEST.ID is E'Уникальный идентификатор записи';
+      COMMENT
+      on column CARGO_MANAGEMENT.TRANSPORTATION_REQUEST.CREATED_BY is E'UUID пользователя создавшего заявку';
+      COMMENT
+      on column CARGO_MANAGEMENT.TRANSPORTATION_REQUEST.CREATED_AT is E'Дата и время с часовым поясом создания заявки';
+      COMMENT
+      on column CARGO_MANAGEMENT.TRANSPORTATION_REQUEST.FREIGHT is E'Сумма фрахта';
+      COMMENT
+      on column CARGO_MANAGEMENT.TRANSPORTATION_REQUEST.CARGO_TYPE is E'Тип груза';
+      COMMENT
+      on column CARGO_MANAGEMENT.TRANSPORTATION_REQUEST.CARGO_COST is E'Стоимость груза';
+      COMMENT
+      on column CARGO_MANAGEMENT.TRANSPORTATION_REQUEST.CARGO_VOLUME is E'Объем груза';
+      COMMENT
+      on column CARGO_MANAGEMENT.TRANSPORTATION_REQUEST.CARGO_WEIGHT is E'Вес груза';
+      COMMENT
+      on column CARGO_MANAGEMENT.TRANSPORTATION_REQUEST.TRAILER_TYPE is E'Требуемый типа прицепа';
+      COMMENT
+      on column CARGO_MANAGEMENT.TRANSPORTATION_REQUEST.TRAILER_LOADING_TYPE is E'Требуемый тип погрузки';
+      COMMENT
+      on column CARGO_MANAGEMENT.TRANSPORTATION_REQUEST.TRAILER_VOLUME is E'Требуемый объем прицепа';
+      COMMENT
+      on column CARGO_MANAGEMENT.TRANSPORTATION_REQUEST.TRAILER_LOAD_CAPACITY is E'Требуемая грузоподъемность прицепа';
+      COMMENT
+      on column CARGO_MANAGEMENT.TRANSPORTATION_REQUEST.TRAILER_TEMPERATURE_FROM is E'Требуемая минимальная температура в прицепе';
+      COMMENT
+      on column CARGO_MANAGEMENT.TRANSPORTATION_REQUEST.TRAILER_TEMPERATURE_TO is E'Требуемая максимальная температура в прицепе';
+      COMMENT
+      on column CARGO_MANAGEMENT.TRANSPORTATION_REQUEST.TRANSPORTATION_TYPE is E'Тип перевозки';
+      COMMENT
+      on column CARGO_MANAGEMENT.TRANSPORTATION_REQUEST.SOURCE_NUMBER is E'Номер из источника';
+    </sql>
+  </changeSet>
+
+  <changeSet id="3" author="Fal_AE">
+    <preConditions onFail="MARK_RAN">
+      <not>
+        <indexExists schemaName="CARGO_MANAGEMENT" tableName="TRANSPORTATION_REQUEST" indexName="TRANSPORTATION_REQUEST_CREATED_AT_IDX"/>
+      </not>
+    </preConditions>
+    <sql>
+      create unique index TRANSPORTATION_REQUEST_CREATED_AT_IDX on CARGO_MANAGEMENT.TRANSPORTATION_REQUEST(CREATED_AT);
+    </sql>
+  </changeSet>
+
+</databaseChangeLog>

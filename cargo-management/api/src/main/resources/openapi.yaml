@@ -1,0 +1,207 @@
+openapi: 3.0.3
+info:
+  title: Cargo Management
+  description: 'Управление грузами'
+  contact:
+    email: aleksandr.fal@gt-m.ru
+    name: Александр Фаль
+  version: 0.0.1
+servers:
+  - url: http://localhost:{port}/{basePath}
+    description: Локальное окружение
+    variables:
+      port:
+        default: '8080'
+        description: Порт
+      basePath:
+        default: modulith
+security:
+  - bearer-token:
+      - read
+      - write
+tags:
+  - name: TransportationRequestV1
+    description: Методы для работы с заявками
+paths:
+  /v1/transportation-requests:
+    post:
+      tags:
+        - TransportationRequestV1
+      summary: Создание новой заявки
+      operationId: post-v1-transportation-requests
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: array
+              items:
+                $ref: '#/components/schemas/TransportationRequest'
+      responses:
+        201:
+          description: Заявка создана
+  /v1/transportation-requests/{id}:
+    get:
+      tags:
+        - TransportationRequestV1
+      summary: Получение заявки по идентификатору
+      operationId: get-v1-transportation-requests-id
+      parameters:
+        - name: id
+          in: path
+          description: Идентификатор заявки
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        200:
+          description: Успех
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TransportationRequest'
+components:
+  schemas:
+    Cargo:
+      description: Груз
+      type: object
+      required:
+        - cargoType
+      properties:
+        cargoType:
+          type: string
+          description: Тип груза
+        cost:
+          type: string
+          pattern: '^\d+\.\d{2}$'
+          description: Стоимость груза
+        volume:
+          type: number
+          format: float
+        weight:
+          type: number
+          format: float
+    TransportationRequest:
+      description: Создание заявки на перевозку
+      type: object
+      required:
+        - cargo
+        - dateTime
+        - withoutNds
+        - truckTrailerType
+        - loadingTypeId
+        - transportationTypeCode
+        - roadMapList
+      properties:
+        freight:
+          type: string
+          pattern: '^\d+\.\d{2}$'
+          description: Сумма фрахта с НДС
+        cargo:
+          $ref: '#/components/schemas/Cargo'
+        trailerRequirements:
+          $ref: '#/components/schemas/TrailerRequirements'
+        route:
+          $ref: '#/components/schemas/Route'
+        transportationType:
+          type: string
+          enum: [ 'INTERCITY', 'INTERNATIONAL' ]
+          description: Тип перевозки
+        sourceNumber:
+          type: string
+          description: Номер из учетной системы клиента
+
+        comment:
+          type: string
+          description: Комментарий
+    TrailerRequirements:
+      description: Требования к прицепу
+      type: object
+      properties:
+        type:
+          type: string
+          enum: [ 'REFRIGERATOR', 'AWNING', 'ISOTHERMAL' ]
+          description: Тип прицепа
+        loadingType:
+          type: string
+          enum: [ 'UPPER', 'SIDE', 'REAR' ]
+          description: Тип погрузки
+        volume:
+          type: number
+          format: float
+          description: Объем
+        loadCapacity:
+          type: number
+          format: float
+          description: Грузоподъемность
+        temperatureConditions:
+          $ref: '#/components/schemas/TemperatureConditions'
+    TemperatureConditions:
+      description: Температурные условия
+      type: object
+      properties:
+        temperatureFrom:
+          type: integer
+          example: -10
+          description: Температура от
+        temperatureTo:
+          type: integer
+          example: 0
+          description: Температура до
+    Route:
+      description: Маршрут
+      type: object
+      properties:
+        waypointList:
+          type: array
+          description: Список точек маршрута
+          items:
+            $ref: '#/components/schemas/Waypoint'
+    Waypoint:
+      description: Точка маршрута
+      type: object
+      required:
+        - type
+        - address
+        - dateTimeStart
+        - dateTimeEnd
+      properties:
+        type:
+          type: string
+          enum: [ 'LOADING', 'UNLOADING' ]
+          description: Тип работ в точке
+        address:
+          type: string
+          description: Адрес
+        coordinates:
+          $ref: '#/components/schemas/Coordinates'
+        organizationId:
+          type: string
+          format: uuid
+          description: Идентификатор организации-грузодержателя
+        dateTimeStart:
+          type: string
+          description: Плановые дата и время без часового пояса в формате ISO 8601 начала работ в точке
+        dateTimeEnd:
+          type: string
+          description: Плановые дата и время без часового пояса в формате ISO 8601 окончания работ в точке
+    Coordinates:
+      description: Координаты
+      type: object
+      required:
+        - longitude
+        - latitude
+      properties:
+        longitude:
+          type: string
+          pattern: '^\d+\.\d+$'
+          description: Долгота
+        latitude:
+          type: string
+          pattern: '^\d+\.\d+$'
+          description: Широта
+  securitySchemes:
+    bearer-token:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT

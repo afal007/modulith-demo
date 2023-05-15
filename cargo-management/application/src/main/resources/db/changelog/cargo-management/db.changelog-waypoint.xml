@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<databaseChangeLog
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+  xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.1.xsd">
+
+  <changeSet id="1" author="Fal_AE">
+    <sql>
+      create schema IF not exists CARGO_MANAGEMENT;
+    </sql>
+  </changeSet>
+
+  <changeSet id="2" author="Fal_AE">
+    <preConditions onFail="MARK_RAN">
+      <not>
+        <tableExists schemaName="CARGO_MANAGEMENT" tableName="WAYPOINT"/>
+      </not>
+    </preConditions>
+    <sql>
+      create table CARGO_MANAGEMENT.WAYPOINT (
+        ID                        bigserial primary key,
+        TRANSPORTATION_REQUEST_ID bigserial   not null,
+        CREATED_AT                timestamptz not null default NOW(),
+        TYPE                      varchar     not null,
+        ADDRESS                   varchar,
+        LONGITUDE                 varchar,
+        LATITUDE                  varchar,
+        ORGANIZATION_ID           uuid,
+        DATE_TIME_START           timestamp,
+        DATE_TIME_END             timestamp
+      );
+
+      COMMENT
+      on table CARGO_MANAGEMENT.WAYPOINT is E'Заявка на перевозку';
+      COMMENT
+      on column CARGO_MANAGEMENT.WAYPOINT.ID is E'Уникальный идентификатор записи';
+      COMMENT
+      on column CARGO_MANAGEMENT.WAYPOINT.TRANSPORTATION_REQUEST_ID is E'Идентификатор заявки';
+      COMMENT
+      on column CARGO_MANAGEMENT.WAYPOINT.CREATED_AT is E'Дата и время с часовым поясом создания записи в БД';
+      COMMENT
+      on column CARGO_MANAGEMENT.WAYPOINT.TYPE is E'Тип работ в точке маршрута';
+      COMMENT
+      on column CARGO_MANAGEMENT.WAYPOINT.ADDRESS is E'Адрес';
+      COMMENT
+      on column CARGO_MANAGEMENT.WAYPOINT.LONGITUDE is E'Долгота';
+      COMMENT
+      on column CARGO_MANAGEMENT.WAYPOINT.LATITUDE is E'Широта';
+      COMMENT
+      on column CARGO_MANAGEMENT.WAYPOINT.ORGANIZATION_ID is E'Идентификатор организации-грузодержателя';
+      COMMENT
+      on column CARGO_MANAGEMENT.WAYPOINT.DATE_TIME_START is E'Дата и время начала работ';
+      COMMENT
+      on column CARGO_MANAGEMENT.WAYPOINT.DATE_TIME_END is E'Дата и время окончания работ';
+    </sql>
+  </changeSet>
+
+  <changeSet id="3" author="Fal_AE">
+    <preConditions onFail="MARK_RAN">
+      <not>
+        <indexExists schemaName="CARGO_MANAGEMENT" tableName="WAYPOINT" indexName="WAYPOINT_TRANSPORTATION_REQUEST_ID_IDX"/>
+      </not>
+    </preConditions>
+    <sql>
+      create unique index WAYPOINT_TRANSPORTATION_REQUEST_ID_IDX on CARGO_MANAGEMENT.WAYPOINT(TRANSPORTATION_REQUEST_ID);
+    </sql>
+  </changeSet>
+
+</databaseChangeLog>

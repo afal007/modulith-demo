@@ -1,0 +1,111 @@
+openapi: 3.0.3
+info:
+  title: Notifications Management
+  description: 'Управление уведомлениями'
+  contact:
+    email: aleksandr.fal@gt-m.ru
+    name: Александр Фаль
+  version: 0.0.1
+servers:
+  - url: http://localhost:{port}/{basePath}
+    description: Локальное окружение
+    variables:
+      port:
+        default: '8080'
+        description: Порт
+      basePath:
+        default: modulith
+security:
+  - bearer-token:
+      - read
+      - write
+tags:
+  - name: NotificationSettingsV1
+    description: Методы для работы с настройками уведомлений
+paths:
+  /v1/users/{id}/notification-settings:
+    put:
+      tags:
+        - NotificationSettingsV1
+      summary: Обновление настроек уведомлений для пользователя
+      operationId: put-v1-users-id-notification-settings
+      parameters:
+        - name: id
+          in: path
+          description: Идентификатор пользователя
+          required: true
+          schema:
+            type: integer
+            format: int64
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/NotificationSettings'
+      responses:
+        200:
+          description: Настройки обновлены
+    get:
+      tags:
+        - NotificationSettingsV1
+      summary: Получение настроек уведомлений для пользователя
+      operationId: get-v1-users-id-notification-settings
+      parameters:
+        - name: id
+          in: path
+          description: Идентификатор пользователя
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        200:
+          description: Успех
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NotificationSettings'
+  /v1/users/current/notification-settings:
+    put:
+      tags:
+        - NotificationSettingsV1
+      summary: Обновление настроек уведомлений для текущего пользователя по авторизационному токену
+      operationId: put-v1-users-current-notification-settings
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/NotificationSettings'
+      responses:
+        200:
+          description: Настройки обновлены
+    get:
+      tags:
+        - NotificationSettingsV1
+      summary: Получение настроек уведомлений для текущего пользователя по авторизационному токену
+      operationId: get-v1-users-current-notification-settings
+      responses:
+        200:
+          description: Успех
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NotificationSettings'
+components:
+  schemas:
+    NotificationSettings:
+      description: Настройки уведомлений
+      type: object
+      properties:
+        channel:
+          type: string
+          enum: [ 'EMAIL', 'TELEGRAM', 'ICQ' ]
+          description: Канал уведомлений
+        enabled:
+          type: boolean
+          description: Признак необходимости получения уведомлений
+  securitySchemes:
+    bearer-token:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
