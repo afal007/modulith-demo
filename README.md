@@ -6,7 +6,18 @@
 
 В директории **docker** находится **docker-compose.yaml** который поднимает все необходимые зависимости - PostgreSQL, Keycloak и ElasticSearch.
 
+## Примеры проектов
+
+* https://github.com/anton-liauchuk/educational-platform
+
 ## Тестируемые варианты
+
+### Java Project Jigsaw
+
+Модульность реализованная на уровне языка
+
+* https://openjdk.org/projects/jigsaw/
+* https://www.baeldung.com/project-jigsaw-java-modularity
 
 ### Spring Modulith
 
