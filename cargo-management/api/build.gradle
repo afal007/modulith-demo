@@ -9,6 +9,8 @@ repositories {
 }
 
 dependencies {
+    implementation project(':cargo-management:application')
+
     implementation group: 'org.springframework', name: 'spring-web'
     implementation group: 'org.springframework', name: 'spring-context'
 

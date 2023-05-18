@@ -42,7 +42,7 @@ subprojects {
     source = 'src/test/java'
   }
 
-  tasks.withType(JavaCompile) {
+  tasks.withType(JavaCompile).configureEach {
     sourceCompatibility = 17
     targetCompatibility = 17
     options.encoding = 'UTF-8'
@@ -55,13 +55,22 @@ subprojects {
     }
   }
 
+  dependencies {
+    implementation group: 'org.springframework', name: 'spring-context'
+
+    compileOnly 'org.projectlombok:lombok'
+    annotationProcessor 'org.projectlombok:lombok'
+
+    implementation group: 'org.jetbrains', name: 'annotations', version: versions['jetbrains']
+  }
+
   test {
     useJUnitPlatform {
       excludeTags "integration", "contract"
     }
   }
 
-  task('integrationTest', type: Test, group: 'verification') {
+  tasks.register('integrationTest', Test) {
     useJUnitPlatform {
       includeTags 'integration'
     }
@@ -69,7 +78,7 @@ subprojects {
     dependsOn testClasses
   }
 
-  task('contractTest', type: Test, group: 'verification') {
+  tasks.register('contractTest', Test) {
     useJUnitPlatform {
       includeTags 'contract'
     }
@@ -79,8 +88,6 @@ subprojects {
 
   check.dependsOn integrationTest, contractTest
 }
-
-
 
 
 //
@@ -96,13 +103,11 @@ subprojects {
 //  implementation 'org.springframework.boot:spring-boot-starter-web'
 //  implementation 'io.micrometer:micrometer-tracing-bridge-brave'
 //  implementation 'io.zipkin.reporter2:zipkin-reporter-brave'
+//  runtimeOnly 'io.micrometer:micrometer-registry-prometheus'
 //  implementation 'org.liquibase:liquibase-core'
 //  implementation 'org.springframework.cloud:spring-cloud-starter-openfeign'
-//  compileOnly 'org.projectlombok:lombok'
-//  runtimeOnly 'io.micrometer:micrometer-registry-prometheus'
 //  runtimeOnly 'org.postgresql:postgresql'
 //  annotationProcessor 'org.springframework.boot:spring-boot-configuration-processor'
-//  annotationProcessor 'org.projectlombok:lombok'
 //  testImplementation 'org.springframework.boot:spring-boot-starter-test'
 //  testImplementation 'org.springframework.security:spring-security-test'
 //}

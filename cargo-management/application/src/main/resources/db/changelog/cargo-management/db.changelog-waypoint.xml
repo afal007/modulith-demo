@@ -20,7 +20,7 @@ http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.1.xsd">
     </preConditions>
     <sql>
       create table CARGO_MANAGEMENT.WAYPOINT (
-        ID                        bigserial primary key,
+        ID                        UUID primary key DEFAULT gen_random_uuid(),
         TRANSPORTATION_REQUEST_ID bigserial   not null,
         CREATED_AT                timestamptz not null default NOW(),
         TYPE                      varchar     not null,
@@ -28,8 +28,8 @@ http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.1.xsd">
         LONGITUDE                 varchar,
         LATITUDE                  varchar,
         ORGANIZATION_ID           uuid,
-        DATE_TIME_START           timestamp,
-        DATE_TIME_END             timestamp
+        DATE_TIME_START           timestamptz,
+        DATE_TIME_END             timestamptz
       );
 
       COMMENT

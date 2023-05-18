@@ -21,7 +21,9 @@ http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.1.xsd">
     <sql>
       create table CARGO_MANAGEMENT.TRANSPORTATION_REQUEST (
         ID                       bigserial primary key,
+        VERSION                  smallint,
         CREATED_AT               timestamptz not null default NOW(),
+        UPDATED_AT               timestamptz,
         CREATED_BY               uuid        not null,
         FREIGHT                  numeric(10, 12),
         CARGO_TYPE               varchar,
@@ -35,13 +37,16 @@ http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.1.xsd">
         TRAILER_TEMPERATURE_FROM integer,
         TRAILER_TEMPERATURE_TO   integer,
         TRANSPORTATION_TYPE      varchar,
-        SOURCE_NUMBER            varchar
+        SOURCE_NUMBER            varchar,
+        COMMENT                  varchar
       );
 
       COMMENT
       on table CARGO_MANAGEMENT.TRANSPORTATION_REQUEST is E'Заявка на перевозку';
       COMMENT
       on column CARGO_MANAGEMENT.TRANSPORTATION_REQUEST.ID is E'Уникальный идентификатор записи';
+      COMMENT
+      on column CARGO_MANAGEMENT.TRANSPORTATION_REQUEST.VERSION is E'Версия для оптимистичных блокировок';
       COMMENT
       on column CARGO_MANAGEMENT.TRANSPORTATION_REQUEST.CREATED_BY is E'UUID пользователя создавшего заявку';
       COMMENT
@@ -72,6 +77,8 @@ http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.1.xsd">
       on column CARGO_MANAGEMENT.TRANSPORTATION_REQUEST.TRANSPORTATION_TYPE is E'Тип перевозки';
       COMMENT
       on column CARGO_MANAGEMENT.TRANSPORTATION_REQUEST.SOURCE_NUMBER is E'Номер из источника';
+      COMMENT
+      on column CARGO_MANAGEMENT.TRANSPORTATION_REQUEST.COMMENT is E'Комментарий';
     </sql>
   </changeSet>
 
