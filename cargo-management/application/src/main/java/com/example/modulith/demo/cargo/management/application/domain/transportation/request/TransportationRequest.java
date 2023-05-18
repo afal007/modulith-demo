@@ -4,12 +4,14 @@ import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
+import lombok.Setter;
 
 @Getter
 @Builder(builderMethodName = "startFilling", buildMethodName = "fill")
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
 public class TransportationRequest {
 
+    @Setter
     private Long id;
 
     private Freight freight;

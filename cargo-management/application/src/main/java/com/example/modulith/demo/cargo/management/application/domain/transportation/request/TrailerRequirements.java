@@ -15,11 +15,11 @@ public record TrailerRequirements(
 ) {
 
     public TrailerRequirements {
-        if (volume <= 1.) {
+        if (volume != null && volume <= 1.) {
             throw new IllegalArgumentException("Объем прицепа не может быть меньше 1 кубического метра");
         }
 
-        if (loadCapacity <= 0.5) {
+        if (loadCapacity != null && loadCapacity <= 0.5) {
             throw new IllegalArgumentException("Объем прицепа не может быть меньше 0.5 тонны");
         }
 

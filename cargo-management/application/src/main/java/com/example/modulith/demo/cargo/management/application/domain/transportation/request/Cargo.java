@@ -12,15 +12,15 @@ import java.math.BigDecimal;
  */
 public record Cargo(String type, BigDecimal cost, Float volume, Float weight) {
     public Cargo {
-        if (volume <= 0.) {
+        if (volume != null && volume <= 0.) {
             throw new IllegalArgumentException("Объем груза не может быть меньше нуля");
         }
 
-        if (weight <= 0.) {
+        if (weight != null && weight <= 0.) {
             throw new IllegalArgumentException("Вес груза не может быть меньше нуля");
         }
 
-        if (cost.compareTo(BigDecimal.ZERO) < 0) {
+        if (cost != null && cost.compareTo(BigDecimal.ZERO) < 0) {
             throw new IllegalArgumentException("Стоимость груза не может быть меньше нуля");
         }
     }

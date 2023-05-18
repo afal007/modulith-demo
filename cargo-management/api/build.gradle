@@ -1,51 +1,52 @@
 plugins {
-    id 'java-library'
-    id 'maven-publish'
-    id 'org.openapi.generator' version '5.3.0'
+  id 'java-library'
+  id 'maven-publish'
+  id 'org.openapi.generator' version '5.3.0'
 }
 
 repositories {
-    mavenCentral()
+  mavenCentral()
 }
 
 dependencies {
-    implementation project(':cargo-management:application')
+  implementation project(':cargo-management:application')
 
-    implementation group: 'org.springframework', name: 'spring-web'
-    implementation group: 'org.springframework', name: 'spring-context'
+  implementation group: 'org.springframework', name: 'spring-web'
+  implementation group: 'org.springframework', name: 'spring-context'
+  implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
 
-    implementation group: 'io.swagger', name: 'swagger-annotations', version: '1.6.1'
+  implementation group: 'io.swagger', name: 'swagger-annotations', version: '1.6.1'
 
-    implementation group: 'javax.servlet', name: 'javax.servlet-api', version: '4.0.1'
-    implementation group: 'javax.validation', name: 'validation-api', version: '2.0.1.Final'
-    implementation group: 'javax.annotation', name: 'javax.annotation-api', version: '1.3.2'
+  implementation group: 'javax.servlet', name: 'javax.servlet-api', version: '4.0.1'
+  implementation group: 'javax.validation', name: 'validation-api', version: '2.0.1.Final'
+  implementation group: 'javax.annotation', name: 'javax.annotation-api', version: '1.3.2'
 
-    implementation group: 'com.fasterxml.jackson.core', name: 'jackson-annotations', version: '2.13.2'
+  implementation group: 'com.fasterxml.jackson.core', name: 'jackson-annotations', version: '2.13.2'
 
-    implementation group: 'org.openapitools', name: 'jackson-databind-nullable', version: '0.2.2'
+  implementation group: 'org.openapitools', name: 'jackson-databind-nullable', version: '0.2.2'
 }
 
 openApiGenerate {
-    generatorName = "spring"
-    inputSpec = "$projectDir/src/main/resources/openapi.yaml"
-    outputDir = "$buildDir/generated"
-    apiPackage = "com.example.modulith.demo.cargo.management.api.spring.web"
-    invokerPackage = "com.example.modulith.demo.cargo.management"
-    modelPackage = "com.example.modulith.demo.cargo.management.api.model"
-    modelNameSuffix = "DTO"
-    configOptions = [
-      dateLibrary  : "java8",
-      interfaceOnly: "true",
-      useTags      : "true",
-    ]
+  generatorName = "spring"
+  inputSpec = "$projectDir/src/main/resources/openapi.yaml"
+  outputDir = "$buildDir/generated"
+  apiPackage = "com.example.modulith.demo.cargo.management.api.spring.web"
+  invokerPackage = "com.example.modulith.demo.cargo.management"
+  modelPackage = "com.example.modulith.demo.cargo.management.api.model"
+  modelNameSuffix = "DTO"
+  configOptions = [
+    dateLibrary  : "java8",
+    interfaceOnly: "true",
+    useTags      : "true",
+  ]
 }
 
 tasks.openApiGenerate {
-    doLast {
-        delete(
-          "$buildDir/generated/pom.xml"
-        )
-    }
+  doLast {
+    delete(
+      "$buildDir/generated/pom.xml"
+    )
+  }
 }
 
 compileJava.dependsOn tasks.openApiGenerate
@@ -54,55 +55,55 @@ sourceSets.main.java.srcDir "$buildDir/generated/src/main/java"
 sourceSets.main.resources.srcDir "$buildDir/generated/src/main/resources"
 
 task modelJar(type: Jar) {
-    from("$buildDir/classes/java/main") {
-        include "com/example/modulith/demo/cargo/management/api/model/**"
-    }
-    archiveBaseName.set('api-model')
+  from("$buildDir/classes/java/main") {
+    include "com/example/modulith/demo/cargo/management/api/model/**"
+  }
+  archiveBaseName.set('api-model')
 }
 
 modelJar.dependsOn compileJava
 jar.dependsOn modelJar
 
 artifacts {
-    archives modelJar
+  archives modelJar
 }
 
 publishing {
-    publications {
-        full(MavenPublication) {
-            from components.java
-            artifact source: "src/main/resources/openapi.yaml", classifier: 'openapi', extension: 'yaml'
-        }
-
-        model(MavenPublication) {
-            artifact modelJar
-            artifactId = 'api-model'
-
-            pom.withXml {
-                def dependenciesNode = asNode().appendNode('dependencies')
-                configurations.implementation.allDependencies.each {
-                    if (!it.group.startsWith('org.springframework')) {
-                        def dependencyNode = dependenciesNode.appendNode('dependency')
-                        dependencyNode.appendNode('groupId', it.group)
-                        dependencyNode.appendNode('artifactId', it.name)
-                        dependencyNode.appendNode('version', it.version)
-                        dependencyNode.appendNode('scope', 'runtime')
-                    }
-                }
-            }
-        }
+  publications {
+    full(MavenPublication) {
+      from components.java
+      artifact source: "src/main/resources/openapi.yaml", classifier: 'openapi', extension: 'yaml'
     }
 
-    repositories {
-        maven {
-            url "https://res-lab.globaltruck.ru/api/v4/projects/${System.getenv('CI_PROJECT_ID')}/packages/maven"
-            credentials(HttpHeaderCredentials) {
-                name = 'Job-Token'
-                value = System.getenv("CI_JOB_TOKEN")
-            }
-            authentication {
-                header(HttpHeaderAuthentication)
-            }
+    model(MavenPublication) {
+      artifact modelJar
+      artifactId = 'api-model'
+
+      pom.withXml {
+        def dependenciesNode = asNode().appendNode('dependencies')
+        configurations.implementation.allDependencies.each {
+          if (!it.group.startsWith('org.springframework')) {
+            def dependencyNode = dependenciesNode.appendNode('dependency')
+            dependencyNode.appendNode('groupId', it.group)
+            dependencyNode.appendNode('artifactId', it.name)
+            dependencyNode.appendNode('version', it.version)
+            dependencyNode.appendNode('scope', 'runtime')
+          }
         }
+      }
     }
+  }
+
+  repositories {
+    maven {
+      url "https://res-lab.globaltruck.ru/api/v4/projects/${System.getenv('CI_PROJECT_ID')}/packages/maven"
+      credentials(HttpHeaderCredentials) {
+        name = 'Job-Token'
+        value = System.getenv("CI_JOB_TOKEN")
+      }
+      authentication {
+        header(HttpHeaderAuthentication)
+      }
+    }
+  }
 }

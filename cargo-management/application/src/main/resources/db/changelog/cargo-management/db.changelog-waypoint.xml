@@ -21,7 +21,7 @@ http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.1.xsd">
     <sql>
       create table CARGO_MANAGEMENT.WAYPOINT (
         ID                        UUID primary key DEFAULT gen_random_uuid(),
-        TRANSPORTATION_REQUEST_ID bigserial   not null,
+        TRANSPORTATION_REQUEST_ID bigint      not null,
         CREATED_AT                timestamptz not null default NOW(),
         TYPE                      varchar     not null,
         ADDRESS                   varchar,
@@ -64,7 +64,7 @@ http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.1.xsd">
       </not>
     </preConditions>
     <sql>
-      create unique index WAYPOINT_TRANSPORTATION_REQUEST_ID_IDX on CARGO_MANAGEMENT.WAYPOINT(TRANSPORTATION_REQUEST_ID);
+      create index WAYPOINT_TRANSPORTATION_REQUEST_ID_IDX on CARGO_MANAGEMENT.WAYPOINT(TRANSPORTATION_REQUEST_ID);
     </sql>
   </changeSet>
 

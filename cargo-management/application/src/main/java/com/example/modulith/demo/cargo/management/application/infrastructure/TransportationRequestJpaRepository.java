@@ -57,6 +57,7 @@ public class TransportationRequestJpaRepository implements TransportationRequest
         }).forEach(entity.getWaypointList()::add);
 
         transportationRequestDAO.save(entity);
+        transportationRequest.setId(entity.getId());
         return transportationRequest;
     }
 

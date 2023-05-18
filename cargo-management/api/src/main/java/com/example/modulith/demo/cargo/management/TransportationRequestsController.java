@@ -5,6 +5,7 @@ import java.time.OffsetDateTime;
 import java.util.stream.Collectors;
 
 import org.springframework.http.ResponseEntity;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.example.modulith.demo.cargo.management.api.model.CargoDTO;
@@ -23,10 +24,10 @@ import com.example.modulith.demo.cargo.management.application.domain.transportat
 import com.example.modulith.demo.cargo.management.application.domain.transportation.request.TrailerRequirements;
 import com.example.modulith.demo.cargo.management.application.domain.transportation.request.TransportationRequest;
 import com.example.modulith.demo.cargo.management.application.domain.transportation.request.Waypoint;
-import com.example.modulith.demo.cargo.management.application.usecase.command.create.request.CreateTransportationRequestCommand;
-import com.example.modulith.demo.cargo.management.application.usecase.command.create.request.CreateTransportationRequestCommandHandler;
-import com.example.modulith.demo.cargo.management.application.usecase.query.get.request.FindTransportationRequestByIdQuery;
-import com.example.modulith.demo.cargo.management.application.usecase.query.get.request.FindTransportationRequestByIdQueryHandler;
+import com.example.modulith.demo.cargo.management.application.usecase.command.createrequest.CreateTransportationRequestCommand;
+import com.example.modulith.demo.cargo.management.application.usecase.command.createrequest.CreateTransportationRequestCommandHandler;
+import com.example.modulith.demo.cargo.management.application.usecase.query.getrequest.FindTransportationRequestByIdQuery;
+import com.example.modulith.demo.cargo.management.application.usecase.query.getrequest.FindTransportationRequestByIdQueryHandler;
 
 import lombok.RequiredArgsConstructor;
 
@@ -38,6 +39,7 @@ public class TransportationRequestsController implements TransportationRequestV1
     private final FindTransportationRequestByIdQueryHandler findTransportationRequestByIdQueryHandler;
 
     @Override
+    @Transactional(readOnly = true)
     public ResponseEntity<TransportationRequestDTO> getV1TransportationRequestsId(Long id) {
         return ResponseEntity.of(
             findTransportationRequestByIdQueryHandler.handle(new FindTransportationRequestByIdQuery(id)).map(e -> {
@@ -74,10 +76,12 @@ public class TransportationRequestsController implements TransportationRequestV1
                     waypointDTO.setType(WaypointDTO.TypeEnum.fromValue(w.getType()));
                     waypointDTO.setAddress(w.getAddress());
 
-                    CoordinatesDTO coordinates = new CoordinatesDTO();
-                    coordinates.setLatitude(w.getLatitude().toString());
-                    coordinates.setLongitude(w.getLongitude().toString());
-                    waypointDTO.setCoordinates(coordinates);
+                    if (w.getLatitude() != null) {
+                        CoordinatesDTO coordinates = new CoordinatesDTO();
+                        coordinates.setLatitude(w.getLatitude().toString());
+                        coordinates.setLongitude(w.getLongitude().toString());
+                        waypointDTO.setCoordinates(coordinates);
+                    }
 
                     waypointDTO.setOrganizationId(w.getOrganizationId());
                     waypointDTO.setDateTimeStart(w.getDateTimeStart().toString());
@@ -125,9 +129,9 @@ public class TransportationRequestsController implements TransportationRequestV1
                 .getWaypointList()
                 .stream()
                 .map(w -> new Waypoint(Waypoint.TypeEnum.valueOf(w.getType().name()), w.getAddress(),
-                    new Coordinates(Double.parseDouble(w.getCoordinates().getLongitude()),
+                    w.getCoordinates() != null ? new Coordinates(Double.parseDouble(w.getCoordinates().getLongitude()),
                         Double.parseDouble(w.getCoordinates().getLatitude())
-                    ), w.getOrganizationId(), OffsetDateTime.parse(w.getDateTimeStart()),
+                    ) : null, w.getOrganizationId(), OffsetDateTime.parse(w.getDateTimeStart()),
                     OffsetDateTime.parse(w.getDateTimeEnd())
                 ))
                 .collect(Collectors.toList())))

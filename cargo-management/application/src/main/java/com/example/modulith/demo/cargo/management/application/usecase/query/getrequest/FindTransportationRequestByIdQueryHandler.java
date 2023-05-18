@@ -1,4 +1,4 @@
-package com.example.modulith.demo.cargo.management.application.usecase.query.get.request;
+package com.example.modulith.demo.cargo.management.application.usecase.query.getrequest;
 
 import java.util.Optional;
 

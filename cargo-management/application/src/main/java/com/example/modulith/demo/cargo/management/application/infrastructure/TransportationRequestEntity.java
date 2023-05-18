@@ -11,9 +11,11 @@ import org.hibernate.Hibernate;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 import org.springframework.data.annotation.CreatedBy;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EntityListeners;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -31,6 +33,7 @@ import lombok.ToString;
 @ToString
 @Table(name = "TRANSPORTATION_REQUEST", schema = "CARGO_MANAGEMENT")
 @RequiredArgsConstructor
+@EntityListeners(AuditingEntityListener.class)
 public class TransportationRequestEntity {
 
     @Id
