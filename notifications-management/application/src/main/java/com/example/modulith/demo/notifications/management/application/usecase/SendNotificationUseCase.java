@@ -11,7 +11,7 @@ import lombok.RequiredArgsConstructor;
 
 @Component
 @RequiredArgsConstructor
-public class SendNotificationCommandHandler {
+public class SendNotificationUseCase {
 
     private final NotificationDAO notificationDAO;
 

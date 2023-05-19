@@ -1,4 +1,4 @@
-package com.example.modulith.demo.notifications.management;
+package com.example.modulith.demo.notifications.management.api.controller;
 
 import java.util.List;
 import java.util.Optional;

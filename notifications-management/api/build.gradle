@@ -8,7 +8,8 @@ repositories {
 }
 
 dependencies {
-    implementation project(':notifications-management:application')
+    // TODO: не api
+    api project(':notifications-management:application')
 
     implementation 'org.springframework:spring-web'
     implementation 'org.springframework:spring-context'
