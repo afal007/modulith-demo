@@ -35,8 +35,8 @@ paths:
           description: Идентификатор пользователя
           required: true
           schema:
-            type: integer
-            format: int64
+            type: string
+            format: uuid
       requestBody:
         content:
           application/json:
@@ -91,6 +91,44 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/NotificationSettings'
+  /v1/users/{id}/notifications:
+    get:
+      tags:
+        - NotificationSettingsV1
+      summary: Получение уведомлений для пользователя
+      operationId: get-v1-users-id-notifications
+      parameters:
+        - name: id
+          in: path
+          description: Идентификатор пользователя
+          required: true
+          schema:
+            type: string
+            format: uuid
+      responses:
+        200:
+          description: Успех
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Notification'
+  /v1/users/current/notifications:
+    get:
+      tags:
+        - NotificationSettingsV1
+      summary: Получение уведомлений для текущего пользователя по авторизационному токену
+      operationId: get-v1-users-current-notifications
+      responses:
+        200:
+          description: Успех
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Notification'
 components:
   schemas:
     NotificationSettings:
@@ -104,6 +142,17 @@ components:
         enabled:
           type: boolean
           description: Признак необходимости получения уведомлений
+    Notification:
+      description: Уведомление
+      type: object
+      properties:
+        createdAt:
+          type: string
+          format: date-time
+          description: Дата и время уведомления
+        text:
+          type: string
+          description: Текст уведомления
   securitySchemes:
     bearer-token:
       type: http

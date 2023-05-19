@@ -35,11 +35,7 @@ spring:
       client:
         provider:
           keycloak:
-            #            authorization-uri: ${config.keycloak.server}/realms/${config.keycloak.realm}/protocol/openid-connect/auth
             issuer-uri: ${config.keycloak.server}/realms/${config.keycloak.realm}
-            #            jwk-set-uri: ${config.keycloak.server}/realms/${config.keycloak.realm}/protocol/openid-connect/certs
-            #            token-uri: ${config.keycloak.server}/realms/${config.keycloak.realm}/protocol/openid-connect/token
-            #            user-info-uri: ${config.keycloak.server}/realms/${config.keycloak.realm}/protocol/openid-connect/userinfo
             user-name-attribute: preferred_username
         registration:
           keycloak:
@@ -93,4 +89,5 @@ springdoc:
 logging.pattern.level: "%5p [${spring.application.name:},%X{traceId:-},%X{spanId:-},%X{username:-}]"
 logging:
   level:
-    root: INFO
+    root: DEBUG
+    org.springframework.web.filter.CommonsRequestLoggingFilter: DEBUG

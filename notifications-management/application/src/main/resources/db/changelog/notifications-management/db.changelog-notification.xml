@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<databaseChangeLog
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+  xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.1.xsd">
+
+  <changeSet id="1" author="Fal_AE">
+    <sql>
+      create schema IF not exists NOTIFICATIONS_MANAGEMENT;
+    </sql>
+  </changeSet>
+
+  <changeSet id="2" author="Fal_AE">
+    <preConditions onFail="MARK_RAN">
+      <not>
+        <tableExists schemaName="NOTIFICATIONS_MANAGEMENT" tableName="NOTIFICATION"/>
+      </not>
+    </preConditions>
+    <sql>
+      create table NOTIFICATIONS_MANAGEMENT.NOTIFICATION (
+        ID         uuid primary key     default GEN_RANDOM_UUID(),
+        CREATED_AT timestamptz not null default NOW(),
+        USER_ID    uuid        not null,
+        SEEN       boolean     not null default false,
+        TEXT       varchar     not null
+      );
+
+      COMMENT
+      on table NOTIFICATIONS_MANAGEMENT.NOTIFICATION is E'Уведомление';
+      COMMENT
+      on column NOTIFICATIONS_MANAGEMENT.NOTIFICATION.ID is E'Уникальный идентификатор записи';
+      COMMENT
+      on column NOTIFICATIONS_MANAGEMENT.NOTIFICATION.TEXT is E'Текст уведомления';
+      COMMENT
+      on column NOTIFICATIONS_MANAGEMENT.NOTIFICATION.SEEN is E'Признак что уведомление было просмотрено';
+      COMMENT
+      on column NOTIFICATIONS_MANAGEMENT.NOTIFICATION.USER_ID is E'Идентификатор пользователя';
+      COMMENT
+      on column NOTIFICATIONS_MANAGEMENT.NOTIFICATION.CREATED_AT is E'Дата и время с часовым поясом создания записи в БД';
+    </sql>
+  </changeSet>
+
+  <changeSet id="3" author="Fal_AE">
+    <preConditions onFail="MARK_RAN">
+      <not>
+        <indexExists schemaName="NOTIFICATIONS_MANAGEMENT" tableName="NOTIFICATION" indexName="NOTIFICATION_USER_ID_CREATED_AT_IDX"/>
+      </not>
+    </preConditions>
+    <sql>
+      create index NOTIFICATION_USER_ID_CREATED_AT_IDX on NOTIFICATIONS_MANAGEMENT.NOTIFICATION(USER_ID, CREATED_AT);
+    </sql>
+  </changeSet>
+
+</databaseChangeLog>

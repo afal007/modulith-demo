@@ -1,6 +1,5 @@
 plugins {
     id 'java-library'
-    id 'maven-publish'
     id 'org.openapi.generator' version '5.3.0'
 }
 
@@ -9,8 +8,14 @@ repositories {
 }
 
 dependencies {
-    implementation group: 'org.springframework', name: 'spring-web'
-    implementation group: 'org.springframework', name: 'spring-context'
+    implementation project(':notifications-management:application')
+
+    implementation 'org.springframework:spring-web'
+    implementation 'org.springframework:spring-context'
+
+    implementation 'org.springframework.boot:spring-boot-starter-security'
+    implementation 'org.springframework.boot:spring-boot-starter-oauth2-client'
+    implementation 'org.springframework.boot:spring-boot-starter-oauth2-resource-server'
 
     implementation group: 'io.swagger', name: 'swagger-annotations', version: '1.6.1'
 
@@ -51,7 +56,7 @@ processResources.dependsOn tasks.openApiGenerate
 sourceSets.main.java.srcDir "$buildDir/generated/src/main/java"
 sourceSets.main.resources.srcDir "$buildDir/generated/src/main/resources"
 
-task modelJar(type: Jar) {
+tasks.register('modelJar', Jar) {
     from("$buildDir/classes/java/main") {
         include "com/example/modulith/demo/notifications/management/api/model/**"
     }
@@ -63,44 +68,4 @@ jar.dependsOn modelJar
 
 artifacts {
     archives modelJar
-}
-
-publishing {
-    publications {
-        full(MavenPublication) {
-            from components.java
-            artifact source: "src/main/resources/openapi.yaml", classifier: 'openapi', extension: 'yaml'
-        }
-
-        model(MavenPublication) {
-            artifact modelJar
-            artifactId = 'api-model'
-
-            pom.withXml {
-                def dependenciesNode = asNode().appendNode('dependencies')
-                configurations.implementation.allDependencies.each {
-                    if (!it.group.startsWith('org.springframework')) {
-                        def dependencyNode = dependenciesNode.appendNode('dependency')
-                        dependencyNode.appendNode('groupId', it.group)
-                        dependencyNode.appendNode('artifactId', it.name)
-                        dependencyNode.appendNode('version', it.version)
-                        dependencyNode.appendNode('scope', 'runtime')
-                    }
-                }
-            }
-        }
-    }
-
-    repositories {
-        maven {
-            url "https://res-lab.globaltruck.ru/api/v4/projects/${System.getenv('CI_PROJECT_ID')}/packages/maven"
-            credentials(HttpHeaderCredentials) {
-                name = 'Job-Token'
-                value = System.getenv("CI_JOB_TOKEN")
-            }
-            authentication {
-                header(HttpHeaderAuthentication)
-            }
-        }
-    }
 }

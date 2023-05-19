@@ -3,10 +3,10 @@ plugins {
 }
 
 dependencies {
-  implementation project(':cargo-management:api')
-  implementation project(':cargo-management:application')
   implementation project(':notifications-management:api')
   implementation project(':notifications-management:application')
+  implementation project(':cargo-management:api')
+  implementation project(':cargo-management:application')
 
   implementation 'org.liquibase:liquibase-core'
   implementation 'org.springframework.boot:spring-boot-starter-web'

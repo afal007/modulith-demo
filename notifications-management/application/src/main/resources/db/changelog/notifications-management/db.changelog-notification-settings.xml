@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<databaseChangeLog
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+  xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.1.xsd">
+
+  <changeSet id="1" author="Fal_AE">
+    <sql>
+      create schema IF not exists NOTIFICATIONS_MANAGEMENT;
+    </sql>
+  </changeSet>
+
+  <changeSet id="2" author="Fal_AE">
+    <preConditions onFail="MARK_RAN">
+      <not>
+        <tableExists schemaName="NOTIFICATIONS_MANAGEMENT" tableName="NOTIFICATION_SETTINGS"/>
+      </not>
+    </preConditions>
+    <sql>
+      create table NOTIFICATIONS_MANAGEMENT.NOTIFICATION_SETTINGS (
+        ID      uuid primary key default GEN_RANDOM_UUID(),
+        USER_ID uuid    not null,
+        ENABLED boolean not null default true
+      );
+
+      COMMENT
+      on table NOTIFICATIONS_MANAGEMENT.NOTIFICATION_SETTINGS is E'Настройки уведомлений';
+      COMMENT
+      on column NOTIFICATIONS_MANAGEMENT.NOTIFICATION_SETTINGS.ID is E'Уникальный идентификатор записи';
+      COMMENT
+      on column NOTIFICATIONS_MANAGEMENT.NOTIFICATION_SETTINGS.USER_ID is E'Идентификатор пользователя';
+      COMMENT
+      on column NOTIFICATIONS_MANAGEMENT.NOTIFICATION_SETTINGS.ENABLED is E'Признак необходимости отправлять уведомления';
+    </sql>
+  </changeSet>
+
+</databaseChangeLog>
