@@ -56,10 +56,15 @@ subprojects {
   }
 
   dependencies {
-    implementation group: 'org.springframework', name: 'spring-context'
+    implementation 'org.springframework:spring-context'
 
     compileOnly 'org.projectlombok:lombok'
     annotationProcessor 'org.projectlombok:lombok'
+
+    implementation("org.axonframework:axon-spring-boot-starter:${versions['axon']}") {
+      exclude group: "org.axonframework", module: "axon-server-connector"
+    }
+
 
     implementation group: 'org.jetbrains', name: 'annotations', version: versions['jetbrains']
   }

@@ -3,7 +3,8 @@ package com.example.modulith.demo.cargo.management.application.usecase.command.c
 import java.util.Optional;
 import java.util.UUID;
 
-import org.springframework.context.ApplicationEventPublisher;
+import org.axonframework.commandhandling.CommandBus;
+import org.axonframework.commandhandling.GenericCommandMessage;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.oauth2.jwt.JwtClaimAccessor;
@@ -20,15 +21,15 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class CreateTransportationRequestCommandHandler {
 
-    private final ApplicationEventPublisher applicationEventPublisher;
+    private final CommandBus commandBus;
     private final TransportationRequestRepository transportationRequestRepository;
 
     public long handle(CreateTransportationRequestCommand createTransportationRequestCommand) {
         TransportationRequest add =
             transportationRequestRepository.add(createTransportationRequestCommand.transportationRequest());
 
-        applicationEventPublisher.publishEvent(
-            new SendNotificationCommand(add, getCurrentUserId().get(), "Создана заявка №%d".formatted(add.getId())));
+        commandBus.dispatch(GenericCommandMessage.asCommandMessage(
+            new SendNotificationCommand(getCurrentUserId().get(), "Создана заявка №%d".formatted(add.getId()))));
 
         return add.getId();
     }
