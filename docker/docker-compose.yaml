@@ -51,6 +51,22 @@ services:
       - "8787:8787" # debug port
     networks:
       - backend
+  axonserver:
+    image: axoniq/axonserver:latest-dev
+    hostname: axonserver
+    environment:
+      - SPRING_SERVLET_MULTIPART_MAX-FILE-SIZE=35MB
+      - SPRING_SERVLET_MULTIPART_MAX-REQUEST-SIZE=35MB
+      - AXONIQ_AXONSERVER_DEVMODE_ENABLED=TRUE
+    volumes:
+      - ./axonserver/data:/axonserver/data
+      - ./axonserver/events:/axonserver/events
+      - ./axonserver/config:/axonserver/config:ro
+    ports:
+      - '8024:8024'
+      - '8124:8124'
+    networks:
+      - backend
 
 networks:
   backend:

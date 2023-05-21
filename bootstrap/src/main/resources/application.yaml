@@ -89,5 +89,12 @@ springdoc:
 logging.pattern.level: "%5p [${spring.application.name:},%X{traceId:-},%X{spanId:-},%X{username:-}]"
 logging:
   level:
-    root: DEBUG
+    root: INFO
     org.springframework.web.filter.CommonsRequestLoggingFilter: DEBUG
+
+axon:
+  localhost:
+    client-id: modulith-demo
+    component-name: modulith-demo
+    query-threads: ${AXON_QUERY_THREADS_MAX:50}
+    servers: ${AXON_AXONSERVER_SERVERS:axonserver}

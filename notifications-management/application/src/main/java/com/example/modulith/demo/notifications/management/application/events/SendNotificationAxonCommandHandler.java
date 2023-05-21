@@ -12,7 +12,7 @@ import lombok.RequiredArgsConstructor;
 
 @Component
 @RequiredArgsConstructor
-public class SendNotificationCommandHandler {
+public class SendNotificationAxonCommandHandler {
 
     private final SendNotificationUseCase sendNotificationUseCase;
 

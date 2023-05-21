@@ -61,10 +61,8 @@ subprojects {
     compileOnly 'org.projectlombok:lombok'
     annotationProcessor 'org.projectlombok:lombok'
 
-    implementation("org.axonframework:axon-spring-boot-starter:${versions['axon']}") {
-      exclude group: "org.axonframework", module: "axon-server-connector"
-    }
-
+    implementation("org.axonframework:axon-spring-boot-starter:${versions['axon']}")
+    implementation("org.axonframework:axon-tracing-opentelemetry:${versions['axon']}")
 
     implementation group: 'org.jetbrains', name: 'annotations', version: versions['jetbrains']
   }
