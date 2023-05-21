@@ -4,7 +4,9 @@ import java.util.Optional;
 import java.util.UUID;
 
 import org.axonframework.commandhandling.CommandBus;
+import org.axonframework.commandhandling.CommandHandler;
 import org.axonframework.commandhandling.GenericCommandMessage;
+import org.axonframework.commandhandling.gateway.CommandGateway;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.oauth2.jwt.JwtClaimAccessor;
@@ -21,14 +23,15 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class CreateTransportationRequestCommandHandler {
 
-    private final CommandBus commandBus;
+    private final CommandGateway commandGateway;
     private final TransportationRequestRepository transportationRequestRepository;
 
+    @CommandHandler
     public long handle(CreateTransportationRequestCommand createTransportationRequestCommand) {
         TransportationRequest add =
             transportationRequestRepository.add(createTransportationRequestCommand.transportationRequest());
 
-        commandBus.dispatch(GenericCommandMessage.asCommandMessage(
+        commandGateway.send(GenericCommandMessage.asCommandMessage(
             new SendNotificationCommand(getCurrentUserId().get(), "Создана заявка №%d".formatted(add.getId()))));
 
         return add.getId();

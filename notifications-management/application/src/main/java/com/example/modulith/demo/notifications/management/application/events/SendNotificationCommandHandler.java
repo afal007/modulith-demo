@@ -9,7 +9,9 @@ import com.example.modulith.demo.notifications.management.application.domain.Not
 import com.example.modulith.demo.notifications.management.application.usecase.SendNotificationUseCase;
 
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 
+@Slf4j
 @Component
 @RequiredArgsConstructor
 public class SendNotificationCommandHandler {
@@ -18,6 +20,7 @@ public class SendNotificationCommandHandler {
 
     @CommandHandler
     public void handle(SendNotificationCommand command) {
+        LOGGER.info("Комманда на отправку нотификации {}", command);
         sendNotificationUseCase.execute(new Notification(command.userId(), command.text(), OffsetDateTime.now()));
     }
 }

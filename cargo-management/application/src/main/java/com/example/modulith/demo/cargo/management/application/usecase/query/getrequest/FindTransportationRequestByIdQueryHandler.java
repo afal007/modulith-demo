@@ -2,6 +2,7 @@ package com.example.modulith.demo.cargo.management.application.usecase.query.get
 
 import java.util.Optional;
 
+import org.axonframework.queryhandling.QueryHandler;
 import org.springframework.stereotype.Component;
 
 import com.example.modulith.demo.cargo.management.application.infrastructure.TransportationRequestDAO;
@@ -15,6 +16,7 @@ public class FindTransportationRequestByIdQueryHandler {
 
     private final TransportationRequestDAO transportationRequestDAO;
 
+    @QueryHandler
     public Optional<TransportationRequestEntity> handle(
         FindTransportationRequestByIdQuery findTransportationRequestByIdQuery
     ) {

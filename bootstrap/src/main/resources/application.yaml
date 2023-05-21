@@ -89,5 +89,5 @@ springdoc:
 logging.pattern.level: "%5p [${spring.application.name:},%X{traceId:-},%X{spanId:-},%X{username:-}]"
 logging:
   level:
-    root: DEBUG
+    root: INFO
     org.springframework.web.filter.CommonsRequestLoggingFilter: DEBUG

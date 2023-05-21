@@ -5,6 +5,8 @@ import java.util.Optional;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
+import org.axonframework.messaging.responsetypes.ResponseTypes;
+import org.axonframework.queryhandling.QueryGateway;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -15,7 +17,8 @@ import org.springframework.web.bind.annotation.RestController;
 import com.example.modulith.demo.notifications.management.api.model.NotificationDTO;
 import com.example.modulith.demo.notifications.management.api.model.NotificationSettingsDTO;
 import com.example.modulith.demo.notifications.management.api.spring.web.NotificationSettingsV1Api;
-import com.example.modulith.demo.notifications.management.application.usecase.GetUserNotificationsQueryHandler;
+import com.example.modulith.demo.notifications.management.application.domain.Notification;
+import com.example.modulith.demo.notifications.management.application.usecase.GetNotificationsByUserIdQuery;
 
 import lombok.RequiredArgsConstructor;
 
@@ -23,7 +26,7 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class NotificationsManagementController implements NotificationSettingsV1Api {
 
-    private final GetUserNotificationsQueryHandler queryHandler;
+    private final QueryGateway queryGateway;
 
     @Override
     public ResponseEntity<NotificationSettingsDTO> getV1UsersCurrentNotificationSettings() {
@@ -32,7 +35,9 @@ public class NotificationsManagementController implements NotificationSettingsV1
 
     @Override
     public ResponseEntity<List<NotificationDTO>> getV1UsersCurrentNotifications() {
-        return ResponseEntity.ok(queryHandler.execute(getCurrentUserId().orElseThrow()).stream().map(n -> {
+        return ResponseEntity.ok(queryGateway.query(new GetNotificationsByUserIdQuery(getCurrentUserId().orElseThrow()),
+            ResponseTypes.multipleInstancesOf(Notification.class)
+        ).join().stream().map(n -> {
             NotificationDTO notificationDTO = new NotificationDTO();
             notificationDTO.setText(n.text());
             notificationDTO.setCreatedAt(n.createdAt());
@@ -47,12 +52,18 @@ public class NotificationsManagementController implements NotificationSettingsV1
 
     @Override
     public ResponseEntity<List<NotificationDTO>> getV1UsersIdNotifications(UUID id) {
-        return ResponseEntity.ok(queryHandler.execute(id).stream().map(n -> {
-            NotificationDTO notificationDTO = new NotificationDTO();
-            notificationDTO.setText(n.text());
-            notificationDTO.setCreatedAt(n.createdAt());
-            return notificationDTO;
-        }).collect(Collectors.toList()));
+        return ResponseEntity.ok(queryGateway.query(new GetNotificationsByUserIdQuery(id),
+                ResponseTypes.multipleInstancesOf(Notification.class)
+            )
+            .join()
+            .stream()
+            .map(n -> {
+                NotificationDTO notificationDTO = new NotificationDTO();
+                notificationDTO.setText(n.text());
+                notificationDTO.setCreatedAt(n.createdAt());
+                return notificationDTO;
+            })
+            .collect(Collectors.toList()));
     }
 
     @Override
