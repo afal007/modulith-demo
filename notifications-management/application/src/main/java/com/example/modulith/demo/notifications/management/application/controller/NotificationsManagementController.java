@@ -1,9 +1,8 @@
-package com.example.modulith.demo.notifications.management.api.controller;
+package com.example.modulith.demo.notifications.management.application.controller;
 
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
-import java.util.stream.Collectors;
 
 import org.axonframework.messaging.responsetypes.ResponseTypes;
 import org.axonframework.queryhandling.QueryGateway;
@@ -17,7 +16,6 @@ import org.springframework.web.bind.annotation.RestController;
 import com.example.modulith.demo.notifications.management.api.model.NotificationDTO;
 import com.example.modulith.demo.notifications.management.api.model.NotificationSettingsDTO;
 import com.example.modulith.demo.notifications.management.api.spring.web.NotificationSettingsV1Api;
-import com.example.modulith.demo.notifications.management.application.domain.Notification;
 import com.example.modulith.demo.notifications.management.application.usecase.GetNotificationsByUserIdQuery;
 
 import lombok.RequiredArgsConstructor;
@@ -36,13 +34,8 @@ public class NotificationsManagementController implements NotificationSettingsV1
     @Override
     public ResponseEntity<List<NotificationDTO>> getV1UsersCurrentNotifications() {
         return ResponseEntity.ok(queryGateway.query(new GetNotificationsByUserIdQuery(getCurrentUserId().orElseThrow()),
-            ResponseTypes.multipleInstancesOf(Notification.class)
-        ).join().stream().map(n -> {
-            NotificationDTO notificationDTO = new NotificationDTO();
-            notificationDTO.setText(n.text());
-            notificationDTO.setCreatedAt(n.createdAt());
-            return notificationDTO;
-        }).collect(Collectors.toList()));
+            ResponseTypes.multipleInstancesOf(NotificationDTO.class)
+        ).join());
     }
 
     @Override
@@ -53,17 +46,8 @@ public class NotificationsManagementController implements NotificationSettingsV1
     @Override
     public ResponseEntity<List<NotificationDTO>> getV1UsersIdNotifications(UUID id) {
         return ResponseEntity.ok(queryGateway.query(new GetNotificationsByUserIdQuery(id),
-                ResponseTypes.multipleInstancesOf(Notification.class)
-            )
-            .join()
-            .stream()
-            .map(n -> {
-                NotificationDTO notificationDTO = new NotificationDTO();
-                notificationDTO.setText(n.text());
-                notificationDTO.setCreatedAt(n.createdAt());
-                return notificationDTO;
-            })
-            .collect(Collectors.toList()));
+            ResponseTypes.multipleInstancesOf(NotificationDTO.class)
+        ).join());
     }
 
     @Override

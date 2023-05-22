@@ -5,6 +5,7 @@ import java.time.OffsetDateTime;
 import org.axonframework.commandhandling.CommandHandler;
 import org.springframework.stereotype.Component;
 
+import com.example.modulith.demo.notifications.management.api.command.SendNotificationIntegrationCommand;
 import com.example.modulith.demo.notifications.management.application.domain.Notification;
 import com.example.modulith.demo.notifications.management.application.usecase.SendNotificationUseCase;
 
@@ -19,8 +20,8 @@ public class SendNotificationCommandHandler {
     private final SendNotificationUseCase sendNotificationUseCase;
 
     @CommandHandler
-    public void handle(SendNotificationCommand command) {
-        LOGGER.info("Комманда на отправку нотификации {}", command);
+    public void handle(SendNotificationIntegrationCommand command) {
+        LOGGER.info("Команда на отправку нотификации {}", command);
         sendNotificationUseCase.execute(new Notification(command.userId(), command.text(), OffsetDateTime.now()));
     }
 }

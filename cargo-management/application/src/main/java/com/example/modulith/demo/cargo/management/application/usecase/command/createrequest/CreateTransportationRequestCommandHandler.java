@@ -3,7 +3,6 @@ package com.example.modulith.demo.cargo.management.application.usecase.command.c
 import java.util.Optional;
 import java.util.UUID;
 
-import org.axonframework.commandhandling.CommandBus;
 import org.axonframework.commandhandling.CommandHandler;
 import org.axonframework.commandhandling.GenericCommandMessage;
 import org.axonframework.commandhandling.gateway.CommandGateway;
@@ -15,7 +14,7 @@ import org.springframework.stereotype.Component;
 
 import com.example.modulith.demo.cargo.management.application.domain.transportation.request.TransportationRequest;
 import com.example.modulith.demo.cargo.management.application.domain.transportation.request.TransportationRequestRepository;
-import com.example.modulith.demo.notifications.management.application.events.SendNotificationCommand;
+import com.example.modulith.demo.notifications.management.api.command.SendNotificationIntegrationCommand;
 
 import lombok.RequiredArgsConstructor;
 
@@ -32,7 +31,9 @@ public class CreateTransportationRequestCommandHandler {
             transportationRequestRepository.add(createTransportationRequestCommand.transportationRequest());
 
         commandGateway.send(GenericCommandMessage.asCommandMessage(
-            new SendNotificationCommand(getCurrentUserId().get(), "Создана заявка №%d".formatted(add.getId()))));
+            new SendNotificationIntegrationCommand(getCurrentUserId().get(),
+                "Создана заявка №%d".formatted(add.getId())
+            )));
 
         return add.getId();
     }

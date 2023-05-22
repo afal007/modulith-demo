@@ -1,4 +1,4 @@
-package com.example.modulith.demo.cargo.management.application.infrastructure;
+package com.example.modulith.demo.cargo.management.application.infrastructure.database;
 
 import java.math.BigDecimal;
 import java.time.OffsetDateTime;
