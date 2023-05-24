@@ -27,6 +27,10 @@ spring:
   application:
     name: modulith
 
+  docker:
+    compose:
+      file: 'docker/docker-compose.yaml'
+
   security:
     oauth2:
       resourceserver:
@@ -49,6 +53,7 @@ spring:
     open-in-view: false
     hibernate:
       ddl-auto: none
+    database-platform: org.hibernate.dialect.PostgreSQLDialect
     properties:
       hibernate:
         dialect: org.hibernate.dialect.PostgreSQLDialect
@@ -56,9 +61,9 @@ spring:
         default_schema: integrations_atisu_connector
   datasource:
     driver-class-name: org.postgresql.Driver
-    url: jdbc:postgresql://${config.datasource.server}/${config.datasource.database}?&ApplicationName=${hostname}&ssl=${config.datasource.ssl}&sslmode=${config.datasource.sslmode}
-    username: ${config.datasource.username}
-    password: ${config.datasource.password}
+#    url: jdbc:postgresql://${config.datasource.server}/${config.datasource.database}?&ApplicationName=${hostname}&ssl=${config.datasource.ssl}&sslmode=${config.datasource.sslmode}
+#    username: ${config.datasource.username}
+#    password: ${config.datasource.password}
     hikari:
       username: ${spring.datasource.username}
       password: ${spring.datasource.password}

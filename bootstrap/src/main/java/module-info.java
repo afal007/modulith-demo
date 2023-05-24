@@ -6,6 +6,8 @@ open module modulith.demo.bootstrap.main {
     requires org.axonframework.messaging;
     requires org.axonframework.eventsourcing;
 
+    requires org.hibernate.orm.core;
+
     requires spring.web;
     requires spring.context;
 
