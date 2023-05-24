@@ -2,6 +2,10 @@ open module modulith.demo.bootstrap.main {
     requires org.slf4j;
     requires org.jetbrains.annotations;
 
+    requires org.axonframework.config;
+    requires org.axonframework.messaging;
+    requires org.axonframework.eventsourcing;
+
     requires spring.web;
     requires spring.context;
 
@@ -17,8 +21,7 @@ open module modulith.demo.bootstrap.main {
 
     requires jakarta.servlet;
 
-//    requires modulith.demo.cargo.management;
-//    requires modulith.demo.notifications.management.application;
+    requires context.propagation;
 
     requires java.sql;
 }

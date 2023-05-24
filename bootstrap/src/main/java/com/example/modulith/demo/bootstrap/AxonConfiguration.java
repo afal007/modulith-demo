@@ -1,5 +1,12 @@
 package com.example.modulith.demo.bootstrap;
 
+import org.axonframework.commandhandling.AsynchronousCommandBus;
+import org.axonframework.commandhandling.CommandBus;
+import org.axonframework.commandhandling.DuplicateCommandHandlerResolver;
+import org.axonframework.commandhandling.LoggingDuplicateCommandHandlerResolver;
+import org.axonframework.commandhandling.SimpleCommandBus;
+import org.axonframework.common.transaction.NoTransactionManager;
+import org.axonframework.common.transaction.TransactionManager;
 import org.axonframework.config.Configurer;
 import org.axonframework.config.ConfigurerModule;
 import org.axonframework.eventhandling.tokenstore.TokenStore;
@@ -8,15 +15,19 @@ import org.axonframework.eventsourcing.eventstore.EventStorageEngine;
 import org.axonframework.eventsourcing.eventstore.inmemory.InMemoryEventStorageEngine;
 import org.axonframework.lifecycle.Phase;
 import org.axonframework.messaging.Message;
+import org.axonframework.messaging.interceptors.CorrelationDataInterceptor;
 import org.axonframework.messaging.interceptors.LoggingInterceptor;
 import org.axonframework.serialization.Serializer;
 import org.axonframework.serialization.json.JacksonSerializer;
-import org.axonframework.tracing.LoggingSpanFactory;
+import org.axonframework.tracing.NoOpSpanFactory;
 import org.axonframework.tracing.SpanFactory;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Primary;
+import org.springframework.context.annotation.Profile;
+import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
+import org.springframework.security.task.DelegatingSecurityContextAsyncTaskExecutor;
 
 /**
  * Represents overrides for axon beans.
@@ -35,8 +46,26 @@ public class AxonConfiguration {
     }
 
     @Bean
+    @Profile("async")
+    public CommandBus asyncCommandBus(
+        org.axonframework.config.Configuration config, ThreadPoolTaskExecutor taskExecutor
+    ) {
+        CommandBus commandBus = AsynchronousCommandBus.builder()
+            .executor(new DelegatingSecurityContextAsyncTaskExecutor(taskExecutor))
+            .transactionManager(config.getComponent(TransactionManager.class, () -> NoTransactionManager.INSTANCE))
+            .duplicateCommandHandlerResolver(config.getComponent(DuplicateCommandHandlerResolver.class,
+                LoggingDuplicateCommandHandlerResolver::instance
+            ))
+            .spanFactory(config.spanFactory())
+            .messageMonitor(config.messageMonitor(SimpleCommandBus.class, "commandBus"))
+            .build();
+        commandBus.registerHandlerInterceptor(new CorrelationDataInterceptor<>(config.correlationDataProviders()));
+        return commandBus;
+    }
+
+    @Bean
     public SpanFactory spanFactory() {
-        return LoggingSpanFactory.INSTANCE;
+        return NoOpSpanFactory.INSTANCE;
     }
 
     @Bean
@@ -74,7 +103,7 @@ public class AxonConfiguration {
 
         /**
          * Registers the {@link LoggingInterceptor} on the {@link org.axonframework.commandhandling.CommandBus},
-         * {@link com.google.common.eventbus.EventBus}, {@link org.axonframework.queryhandling.QueryBus}, and
+         * {@link org.axonframework.eventhandling.EventBus}, {@link org.axonframework.queryhandling.QueryBus}, and
          * {@link org.axonframework.queryhandling.QueryUpdateEmitter}.
          * <p>
          * It does so right after the {@link Phase#INSTRUCTION_COMPONENTS}, to ensure all these infrastructure
