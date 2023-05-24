@@ -1,4 +1,6 @@
 open module modulith.demo.bootstrap.main {
+    requires lombok;
+
     requires org.slf4j;
     requires org.jetbrains.annotations;
 
@@ -9,6 +11,7 @@ open module modulith.demo.bootstrap.main {
     requires org.hibernate.orm.core;
 
     requires spring.web;
+    requires spring.webmvc;
     requires spring.context;
 
     requires spring.boot;
