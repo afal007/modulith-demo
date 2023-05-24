@@ -15,20 +15,20 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.example.modulith.demo.notifications.management.api.model.NotificationDTO;
 import com.example.modulith.demo.notifications.management.api.model.NotificationSettingsDTO;
-import com.example.modulith.demo.notifications.management.api.spring.web.NotificationSettingsV1Api;
+import com.example.modulith.demo.notifications.management.api.spring.web.NotificationV1Api;
 import com.example.modulith.demo.notifications.management.application.usecase.GetNotificationsByUserIdQuery;
 
 import lombok.RequiredArgsConstructor;
 
 @RestController
 @RequiredArgsConstructor
-public class NotificationsManagementController implements NotificationSettingsV1Api {
+public class NotificationsManagementController implements NotificationV1Api {
 
     private final QueryGateway queryGateway;
 
     @Override
     public ResponseEntity<NotificationSettingsDTO> getV1UsersCurrentNotificationSettings() {
-        return NotificationSettingsV1Api.super.getV1UsersCurrentNotificationSettings();
+        return NotificationV1Api.super.getV1UsersCurrentNotificationSettings();
     }
 
     @Override
@@ -40,7 +40,7 @@ public class NotificationsManagementController implements NotificationSettingsV1
 
     @Override
     public ResponseEntity<NotificationSettingsDTO> getV1UsersIdNotificationSettings(Long id) {
-        return NotificationSettingsV1Api.super.getV1UsersIdNotificationSettings(id);
+        return NotificationV1Api.super.getV1UsersIdNotificationSettings(id);
     }
 
     @Override
@@ -52,14 +52,14 @@ public class NotificationsManagementController implements NotificationSettingsV1
 
     @Override
     public ResponseEntity<Void> putV1UsersCurrentNotificationSettings(NotificationSettingsDTO notificationSettingsDTO) {
-        return NotificationSettingsV1Api.super.putV1UsersCurrentNotificationSettings(notificationSettingsDTO);
+        return NotificationV1Api.super.putV1UsersCurrentNotificationSettings(notificationSettingsDTO);
     }
 
     @Override
     public ResponseEntity<Void> putV1UsersIdNotificationSettings(
         UUID id, NotificationSettingsDTO notificationSettingsDTO
     ) {
-        return NotificationSettingsV1Api.super.putV1UsersIdNotificationSettings(id, notificationSettingsDTO);
+        return NotificationV1Api.super.putV1UsersIdNotificationSettings(id, notificationSettingsDTO);
     }
 
     private Optional<UUID> getCurrentUserId() {

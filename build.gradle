@@ -54,7 +54,6 @@ subprojects {
     imports {
       mavenBom "org.springframework.boot:spring-boot-dependencies:${versions['spring-boot']}"
       mavenBom "org.springframework.cloud:spring-cloud-dependencies:${versions['spring-cloud']}"
-      mavenBom "org.springframework.experimental:spring-modulith-bom:0.6.0"
       mavenBom "org.jmolecules:jmolecules-bom:2022.3.0"
 
     }
@@ -62,10 +61,7 @@ subprojects {
 
   dependencies {
     implementation 'org.springframework:spring-context'
-    implementation 'org.springframework.experimental:spring-modulith-starter-core'
-//    implementation 'org.springframework.experimental:spring-modulith-starter-insight'
 
-//    implementation 'org.jmolecules:jmolecules-ddd:1.7.0'
     implementation 'org.jmolecules.integrations:jmolecules-starter-ddd'
 
 
@@ -79,7 +75,6 @@ subprojects {
     implementation("org.axonframework:axon-tracing-opentelemetry:${versions['axon']}")
 
     implementation group: 'org.jetbrains', name: 'annotations', version: versions['jetbrains']
-    testImplementation 'org.springframework.experimental:spring-modulith-starter-test'
   }
 
   test {

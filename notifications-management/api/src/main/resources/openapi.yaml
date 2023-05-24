@@ -20,13 +20,13 @@ security:
       - read
       - write
 tags:
-  - name: NotificationSettingsV1
-    description: Методы для работы с настройками уведомлений
+  - name: NotificationV1
+    description: Методы для работы с уведомлениями
 paths:
   /v1/users/{id}/notification-settings:
     put:
       tags:
-        - NotificationSettingsV1
+        - NotificationV1
       summary: Обновление настроек уведомлений для пользователя
       operationId: put-v1-users-id-notification-settings
       parameters:
@@ -47,7 +47,7 @@ paths:
           description: Настройки обновлены
     get:
       tags:
-        - NotificationSettingsV1
+        - NotificationV1
       summary: Получение настроек уведомлений для пользователя
       operationId: get-v1-users-id-notification-settings
       parameters:
@@ -68,7 +68,7 @@ paths:
   /v1/users/current/notification-settings:
     put:
       tags:
-        - NotificationSettingsV1
+        - NotificationV1
       summary: Обновление настроек уведомлений для текущего пользователя по авторизационному токену
       operationId: put-v1-users-current-notification-settings
       requestBody:
@@ -81,7 +81,7 @@ paths:
           description: Настройки обновлены
     get:
       tags:
-        - NotificationSettingsV1
+        - NotificationV1
       summary: Получение настроек уведомлений для текущего пользователя по авторизационному токену
       operationId: get-v1-users-current-notification-settings
       responses:
@@ -94,7 +94,7 @@ paths:
   /v1/users/{id}/notifications:
     get:
       tags:
-        - NotificationSettingsV1
+        - NotificationV1
       summary: Получение уведомлений для пользователя
       operationId: get-v1-users-id-notifications
       parameters:
@@ -117,7 +117,7 @@ paths:
   /v1/users/current/notifications:
     get:
       tags:
-        - NotificationSettingsV1
+        - NotificationV1
       summary: Получение уведомлений для текущего пользователя по авторизационному токену
       operationId: get-v1-users-current-notifications
       responses:
