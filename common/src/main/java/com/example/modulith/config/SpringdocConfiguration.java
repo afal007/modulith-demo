@@ -1,11 +1,10 @@
-package com.example.modulith.demo.bootstrap;
-
-import org.springdoc.core.models.GroupedOpenApi;
-import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
+package com.example.modulith.config;
 
 import io.swagger.v3.oas.annotations.enums.SecuritySchemeType;
 import io.swagger.v3.oas.annotations.security.SecurityScheme;
+import org.springdoc.core.models.GroupedOpenApi;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
 
 @Configuration
 @SecurityScheme(

@@ -1,4 +1,4 @@
-package com.example.modulith.demo.bootstrap;
+package com.example.modulith.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

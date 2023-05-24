@@ -1,4 +1,4 @@
-package com.example.modulith.demo.bootstrap;
+package com.example.modulith.config;
 
 import org.axonframework.commandhandling.AsynchronousCommandBus;
 import org.axonframework.commandhandling.CommandBus;

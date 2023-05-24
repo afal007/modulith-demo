@@ -1,8 +1,7 @@
-package com.example.modulith.demo.bootstrap;
+package com.example.modulith.config;
 
 import java.util.Optional;
 import java.util.UUID;
-
 import org.jetbrains.annotations.NotNull;
 import org.springframework.data.domain.AuditorAware;
 import org.springframework.security.core.Authentication;

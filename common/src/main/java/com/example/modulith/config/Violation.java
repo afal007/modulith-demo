@@ -1,3 +1,3 @@
-package com.example.modulith.demo.bootstrap;
+package com.example.modulith.config;
 
 public record Violation(String field, String message) {}

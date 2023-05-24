@@ -1,5 +1,6 @@
 rootProject.name = 'modulith-demo'
-include 'bootstrap'
+
+include 'common'
 
 include 'cargo-management'
 include 'cargo-management:api'

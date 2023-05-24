@@ -1,10 +1,9 @@
-package com.example.modulith.demo.bootstrap;
+package com.example.modulith.config;
 
 import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
-
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.convert.converter.Converter;
