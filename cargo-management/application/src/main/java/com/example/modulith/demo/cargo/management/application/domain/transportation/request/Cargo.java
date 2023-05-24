@@ -2,6 +2,8 @@ package com.example.modulith.demo.cargo.management.application.domain.transporta
 
 import java.math.BigDecimal;
 
+import org.jmolecules.ddd.annotation.ValueObject;
+
 /**
  * Груз
  *
@@ -10,6 +12,7 @@ import java.math.BigDecimal;
  * @param volume объем груза в кубических метрах
  * @param weight вес груза в тоннах
  */
+@ValueObject
 public record Cargo(String type, BigDecimal cost, Float volume, Float weight) {
     public Cargo {
         if (volume != null && volume <= 0.) {

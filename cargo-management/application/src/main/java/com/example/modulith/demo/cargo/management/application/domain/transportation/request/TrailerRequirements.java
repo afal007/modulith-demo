@@ -1,5 +1,7 @@
 package com.example.modulith.demo.cargo.management.application.domain.transportation.request;
 
+import org.jmolecules.ddd.annotation.ValueObject;
+
 /**
  * Требования к прицепу
  *
@@ -9,6 +11,7 @@ package com.example.modulith.demo.cargo.management.application.domain.transporta
  * @param loadingType           тип погрузки
  * @param temperatureConditions температурные условия
  */
+@ValueObject
 public record TrailerRequirements(
     Float volume, Float loadCapacity, TypeEnum type, LoadingTypeEnum loadingType,
     TemperatureConditions temperatureConditions
@@ -50,7 +53,7 @@ public record TrailerRequirements(
         /**
          * Изотермический
          */
-        ISOTHERMAL;
+        ISOTHERMAL
     }
 
     /**
@@ -70,7 +73,7 @@ public record TrailerRequirements(
         /**
          * Задняя
          */
-        REAR;
+        REAR
     }
 }
 

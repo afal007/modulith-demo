@@ -2,6 +2,9 @@ package com.example.modulith.demo.cargo.management.application.domain.transporta
 
 import java.util.Optional;
 
+import org.jmolecules.ddd.annotation.Repository;
+
+@Repository
 public interface TransportationRequestRepository {
 
     TransportationRequest add(TransportationRequest transportationRequest);

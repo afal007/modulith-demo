@@ -9,5 +9,4 @@ class ModulithDemoApplicationTests {
     @Test
     void contextLoads() {
     }
-
 }

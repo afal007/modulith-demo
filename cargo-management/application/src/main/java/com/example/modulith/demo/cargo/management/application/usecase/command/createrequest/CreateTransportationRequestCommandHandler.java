@@ -6,6 +6,7 @@ import java.util.UUID;
 import org.axonframework.commandhandling.CommandHandler;
 import org.axonframework.commandhandling.GenericCommandMessage;
 import org.axonframework.commandhandling.gateway.CommandGateway;
+import org.jmolecules.event.annotation.DomainEventPublisher;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.oauth2.jwt.JwtClaimAccessor;
@@ -26,6 +27,7 @@ public class CreateTransportationRequestCommandHandler {
     private final TransportationRequestRepository transportationRequestRepository;
 
     @CommandHandler
+    @DomainEventPublisher
     public long handle(CreateTransportationRequestCommand createTransportationRequestCommand) {
         TransportationRequest add =
             transportationRequestRepository.add(createTransportationRequestCommand.transportationRequest());

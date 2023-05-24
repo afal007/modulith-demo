@@ -1,11 +1,14 @@
 package com.example.modulith.demo.cargo.management.application.domain.transportation.request;
 
+import org.jmolecules.ddd.annotation.ValueObject;
+
 /**
  * Температурные условия
  *
  * @param temperatureFrom минимальная допустимая температура
  * @param temperatureTo   максимальная допустимая температура
  */
+@ValueObject
 public record TemperatureConditions(Integer temperatureFrom, Integer temperatureTo) {
     public TemperatureConditions {
         if (temperatureFrom == null && temperatureTo == null) {

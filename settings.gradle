@@ -1,11 +1,11 @@
 rootProject.name = 'modulith-demo'
 include 'bootstrap'
 
-//include 'cargo-management'
+include 'cargo-management'
 include 'cargo-management:api'
 include 'cargo-management:application'
 
-//include 'notifications-management'
+include 'notifications-management'
 include 'notifications-management:api'
 include 'notifications-management:application'
 

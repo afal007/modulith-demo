@@ -3,6 +3,8 @@ package com.example.modulith.demo.cargo.management.application.domain.transporta
 import java.time.OffsetDateTime;
 import java.util.UUID;
 
+import org.jmolecules.ddd.annotation.ValueObject;
+
 /**
  * Точка маршрута
  *
@@ -13,6 +15,7 @@ import java.util.UUID;
  * @param dateTimeStart  дата и время начала работ с часовым поясом
  * @param dateTimeEnd    дата и время окончания работ с часовым поясом
  */
+@ValueObject
 public record Waypoint(
     TypeEnum type, String address, Coordinates coordinates, UUID organizationId, OffsetDateTime dateTimeStart,
     OffsetDateTime dateTimeEnd

@@ -1,4 +1,4 @@
-package com.example.modulith;
+package com.example.modulith.demo;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

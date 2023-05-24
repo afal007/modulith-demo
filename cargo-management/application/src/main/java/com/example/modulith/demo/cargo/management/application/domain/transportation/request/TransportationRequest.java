@@ -1,5 +1,7 @@
 package com.example.modulith.demo.cargo.management.application.domain.transportation.request;
 
+import org.jmolecules.ddd.annotation.AggregateRoot;
+
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -9,6 +11,7 @@ import lombok.Setter;
 @Getter
 @Builder(builderMethodName = "startFilling", buildMethodName = "fill")
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
+@AggregateRoot
 public class TransportationRequest {
 
     @Setter
@@ -31,7 +34,7 @@ public class TransportationRequest {
     public enum TransportationTypeEnum {
         INTERCITY,
 
-        INTERNATIONAL;
+        INTERNATIONAL
     }
 }
 

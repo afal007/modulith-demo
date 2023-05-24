@@ -2,6 +2,7 @@ package com.example.modulith.demo.cargo.management.application.infrastructure.da
 
 import java.util.Optional;
 
+import org.jmolecules.ddd.annotation.Repository;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -12,6 +13,7 @@ import com.example.modulith.demo.cargo.management.application.domain.transportat
 import lombok.RequiredArgsConstructor;
 
 @Component
+@Repository
 @Transactional(readOnly = true)
 @RequiredArgsConstructor
 public class TransportationRequestJpaRepository implements TransportationRequestRepository {

@@ -2,6 +2,9 @@ package com.example.modulith.demo.cargo.management.application.domain.transporta
 
 import java.math.BigDecimal;
 
+import org.jmolecules.ddd.annotation.ValueObject;
+
+@ValueObject
 public record Freight(BigDecimal value) {
 
     private static final BigDecimal ONE_THOUSAND = new BigDecimal(1000L);
