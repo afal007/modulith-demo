@@ -18,6 +18,12 @@
 
 Ошибка исправляется добавлением параметра виртуальной машины `--add-reads modulith.demo.bootstrap.main=ALL-UNNAMED`
 
+## API
+
+Свагер доступен по ссылке http://localhost:8080/modulith-demo/swagger-ui.html
+
+В проекте лежит файл с коллекцией запросов для Postman - [Modulith Demo.postman_collection.json](Modulith%20Demo.postman_collection.json)
+
 ## Docker контейнеры
 
 ### PostgreSQL
