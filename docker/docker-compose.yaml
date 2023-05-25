@@ -17,6 +17,8 @@ services:
     image: "dpage/pgadmin4:latest"
     env_file:
       - env/database.dev.env
+    volumes:
+      - ./init/pgadmin/servers.json:/pgadmin4/servers.json
     ports:
       - "5050:80"
     networks:
@@ -43,7 +45,7 @@ services:
     env_file:
       - env/keycloak.dev.env
     volumes:
-      - ./init:/opt/keycloak/data/import:ro
+      - ./init/keycloak:/opt/keycloak/data/import:ro
     depends_on:
       - "postgres"
     ports:

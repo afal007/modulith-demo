@@ -36,8 +36,6 @@ subprojects {
 
   checkstyleMain {
     source = 'src/main/java'
-    exclude '**/module-info.java'
-    exclude '**/package-info.java'
   }
 
   checkstyleTest {
@@ -52,10 +50,8 @@ subprojects {
 
   dependencyManagement {
     imports {
-      mavenBom "org.springframework.boot:spring-boot-dependencies:${versions['spring-boot']}"
-      mavenBom "org.springframework.cloud:spring-cloud-dependencies:${versions['spring-cloud']}"
       mavenBom "org.jmolecules:jmolecules-bom:2022.3.0"
-
+      mavenBom "org.springframework.boot:spring-boot-dependencies:${versions['spring-boot']}"
     }
   }
 
@@ -64,10 +60,8 @@ subprojects {
 
     implementation 'org.jmolecules.integrations:jmolecules-starter-ddd'
 
-
     compileOnly 'org.projectlombok:lombok'
     annotationProcessor 'org.projectlombok:lombok'
-
 
     implementation("org.axonframework:axon-spring-boot-starter:${versions['axon']}") {
       exclude group: "org.axonframework", module: "axon-server-connector"

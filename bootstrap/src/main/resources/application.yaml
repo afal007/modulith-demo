@@ -30,6 +30,7 @@ spring:
   docker:
     compose:
       file: 'docker/docker-compose.yaml'
+      enabled: false
 
   security:
     oauth2:
@@ -56,9 +57,9 @@ spring:
     database-platform: org.hibernate.dialect.PostgreSQLDialect
   datasource:
     driver-class-name: org.postgresql.Driver
-    #    url: jdbc:postgresql://${config.datasource.server}/${config.datasource.database}?&ApplicationName=${hostname}&ssl=${config.datasource.ssl}&sslmode=${config.datasource.sslmode}
-    #    username: ${config.datasource.username}
-    #    password: ${config.datasource.password}
+    url: jdbc:postgresql://${config.datasource.server}/${config.datasource.database}?&ApplicationName=${hostname}&ssl=${config.datasource.ssl}&sslmode=${config.datasource.sslmode}
+    username: ${config.datasource.username}
+    password: ${config.datasource.password}
     hikari:
       username: ${spring.datasource.username}
       password: ${spring.datasource.password}

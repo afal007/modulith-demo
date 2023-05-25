@@ -10,11 +10,47 @@
 
 В проекте использован Spring Boot 3.1.0 и spring-boot-docker-compose - при запуске из Intellij Idea должны автоматически подниматься все докер-контейнеры.
 
+Если нужно отключить автоматическое подхватывание docker-compose можно использовать настройку **spring.docker.compose.enabled=false**. В таком случае для работы приложения необходимо сконфигурировать доступ к БД и подключение к киклоку. Параметры необходимо прописать в **application.yaml** по путям **config.datasource** и **config.keycloak**.
+
 Из-за особенностей Project Jigsaw при запуске из Intellij Idea может вылетать ошибка:
 
 `class com.example.modulith.demo.ModulithDemoApplication$$SpringCGLIB$$0 (in module modulith.demo.bootstrap.main) cannot access class org.springframework.cglib.core.ReflectUtils (in unnamed module @0x35cabb2a) because module modulith.demo.bootstrap.main does not read unnamed module @0x35cabb2a`
 
 Ошибка исправляется добавлением параметра виртуальной машины `--add-reads modulith.demo.bootstrap.main=ALL-UNNAMED`
+
+## Docker контейнеры
+
+### PostgreSQL
+
+Прокидывается на стандартный порт 5432. Создается БД **modulith**. Создается БД **keycloak**.
+
+* Строка подключения - **jdbc:postgresql://localhost:5432/postgres**
+* Хост для PGAdmin - **host.docker.internal**
+* Логин - **dev**
+* Пароль -  **pwd**
+
+### PGAdmin
+
+Прокидывается на порт 5050. Инициализируется подключение к PostgreSQL с названием modulith. При подключении необходимо будет ввести пароль для пользователя dev указанный выше.
+
+* http://localhost:5050 
+* Пользователь - **user@ya.ru**
+* Пароль - **admin**
+
+### Keycloak
+
+Прокидывается на порт 8180. Создается клиент **modulith**. Создаются пользователи **admin** и **test**.
+
+* http://localhost:8180
+* Клиент
+  * clientId - **modulith**
+  * clientSecret - **xOWbdLzfyqgxrg9w2TPx2NvNr8oN5464**
+* Администратор
+  * username - **admin**
+  * password - **admin**
+* Пользователь
+  * username - **test**
+  * password - **12345678**
 
 ## Примеры проектов
 
