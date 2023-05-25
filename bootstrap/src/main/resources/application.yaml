@@ -30,7 +30,6 @@ spring:
   docker:
     compose:
       file: 'docker/docker-compose.yaml'
-      enabled: false
 
   security:
     oauth2:
