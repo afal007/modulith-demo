@@ -87,6 +87,9 @@ springdoc:
   swagger-ui:
     deep-linking: true
     doc-expansion: none
+    oauth:
+      client-id: ${config.keycloak.client}
+      client-secret: ${config.keycloak.secret}
 
 logging.pattern.level: "%5p [${spring.application.name:},%X{traceId:-},%X{spanId:-},%X{username:-}]"
 logging:
