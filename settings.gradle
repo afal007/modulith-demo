@@ -2,15 +2,18 @@ rootProject.name = 'modulith-demo'
 include 'bootstrap'
 
 include 'cargo-management'
+
 include 'cargo-management:api'
+findProject(':cargo-management:api')?.name = 'cargo-management-api'
 include 'cargo-management:application'
+findProject(':cargo-management:application')?.name = 'cargo-management-application'
 
 include 'notifications-management'
 include 'notifications-management:api'
+findProject(':notifications-management:api')?.name = 'notifications-management-api'
 include 'notifications-management:application'
+findProject(':notifications-management:application')?.name = 'notifications-management-application'
 
 include 'client-management'
 include 'catalogue-management'
-include 'cargo-management:api:contract'
-findProject(':cargo-management:api:contract')?.name = 'contract'
 
