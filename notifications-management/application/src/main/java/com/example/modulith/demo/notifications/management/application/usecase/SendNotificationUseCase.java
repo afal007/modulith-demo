@@ -1,19 +1,17 @@
 package com.example.modulith.demo.notifications.management.application.usecase;
 
+import com.example.modulith.demo.notifications.management.application.dao.NotificationEntity;
+import com.example.modulith.demo.notifications.management.application.dao.NotificationRepository;
+import com.example.modulith.demo.notifications.management.application.domain.Notification;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
-
-import com.example.modulith.demo.notifications.management.application.dao.NotificationDAO;
-import com.example.modulith.demo.notifications.management.application.dao.NotificationEntity;
-import com.example.modulith.demo.notifications.management.application.domain.Notification;
-
-import lombok.RequiredArgsConstructor;
 
 @Component
 @RequiredArgsConstructor
 public class SendNotificationUseCase {
 
-    private final NotificationDAO notificationDAO;
+    private final NotificationRepository notificationDAO;
 
     @Transactional
     public void execute(Notification notification) {

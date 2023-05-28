@@ -3,22 +3,7 @@ plugins {
   id 'org.openapi.generator' version '6.6.0'
 }
 
-repositories {
-  mavenCentral()
-}
-
 dependencies {
-  implementation 'org.springframework:spring-web'
-  implementation 'org.springframework:spring-context'
-
-  implementation group: 'io.swagger.core.v3', name: 'swagger-annotations-jakarta', version: '2.2.7'
-
-  implementation group: 'jakarta.servlet', name: 'jakarta.servlet-api', version: '6.0.0'
-  implementation group: 'jakarta.validation', name: 'jakarta.validation-api', version: '3.0.2'
-  implementation group: 'jakarta.annotation', name: 'jakarta.annotation-api', version: '2.1.1'
-
-  implementation group: 'com.fasterxml.jackson.core', name: 'jackson-annotations', version: '2.14.1'
-
   implementation group: 'org.openapitools', name: 'jackson-databind-nullable', version: '0.2.6'
 }
 

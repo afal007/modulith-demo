@@ -2,4 +2,4 @@ package com.example.modulith.demo.cargo.management.application.infrastructure.da
 
 import org.springframework.data.jpa.repository.JpaRepository;
 
-public interface TransportationRequestDAO extends JpaRepository<TransportationRequestEntity, Long> {}
+public interface TransportationRequestRepository extends JpaRepository<TransportationRequestEntity, Long> {}

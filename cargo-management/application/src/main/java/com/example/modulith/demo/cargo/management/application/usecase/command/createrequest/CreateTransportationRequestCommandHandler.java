@@ -1,41 +1,35 @@
 package com.example.modulith.demo.cargo.management.application.usecase.command.createrequest;
 
-import java.util.Optional;
-import java.util.UUID;
-
-import org.axonframework.commandhandling.CommandHandler;
-import org.axonframework.commandhandling.GenericCommandMessage;
-import org.axonframework.commandhandling.gateway.CommandGateway;
+import com.example.modulith.demo.cargo.management.application.domain.transportation.request.TransportationRequest;
+import com.example.modulith.demo.cargo.management.application.domain.transportation.request.TransportationRequestRepository;
+import com.example.modulith.demo.notifications.management.api.command.SendNotificationIntegrationCommand;
+import lombok.RequiredArgsConstructor;
 import org.jmolecules.event.annotation.DomainEventPublisher;
+import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.oauth2.jwt.JwtClaimAccessor;
 import org.springframework.security.oauth2.server.resource.authentication.JwtAuthenticationToken;
 import org.springframework.stereotype.Component;
 
-import com.example.modulith.demo.cargo.management.application.domain.transportation.request.TransportationRequest;
-import com.example.modulith.demo.cargo.management.application.domain.transportation.request.TransportationRequestRepository;
-import com.example.modulith.demo.notifications.management.api.command.SendNotificationIntegrationCommand;
-
-import lombok.RequiredArgsConstructor;
+import java.util.Optional;
+import java.util.UUID;
 
 @Component
 @RequiredArgsConstructor
 public class CreateTransportationRequestCommandHandler {
 
-    private final CommandGateway commandGateway;
+    private final ApplicationEventPublisher eventPublisher;
     private final TransportationRequestRepository transportationRequestRepository;
 
-    @CommandHandler
     @DomainEventPublisher
     public long handle(CreateTransportationRequestCommand createTransportationRequestCommand) {
         TransportationRequest add =
             transportationRequestRepository.add(createTransportationRequestCommand.transportationRequest());
 
-        commandGateway.send(GenericCommandMessage.asCommandMessage(
-            new SendNotificationIntegrationCommand(getCurrentUserId().get(),
+        eventPublisher.publishEvent(new SendNotificationIntegrationCommand(getCurrentUserId().get(),
                 "Создана заявка №%d".formatted(add.getId())
-            )));
+            ));
 
         return add.getId();
     }

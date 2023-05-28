@@ -1,133 +1,76 @@
 plugins {
-  id 'java'
-  id 'checkstyle'
-  id 'org.sonarqube' version '3.4.0.2513'
-  id 'org.asciidoctor.jvm.convert' version '3.3.2'
-  id 'io.spring.dependency-management' version '1.1.0'
-  id 'org.springframework.boot' version '3.1.0'
+    id 'java'
+    id 'checkstyle'
+    id 'org.sonarqube' version '3.4.0.2513'
+    id 'org.asciidoctor.jvm.convert' version '3.3.2'
+    id 'io.spring.dependency-management' version '1.1.0'
+    id 'org.springframework.boot' version '3.1.0'
 }
 
 allprojects {
-  apply from: rootProject.file('versions.gradle')
+    apply plugin: 'java'
+    apply plugin: 'io.spring.dependency-management'
+    apply plugin: 'org.springframework.boot'
 
-  repositories {
-    mavenCentral()
-  }
-}
-
-subprojects {
-  apply plugin: 'idea'
-  apply plugin: 'java'
-  apply plugin: 'checkstyle'
-  apply plugin: 'org.sonarqube'
-  apply plugin: 'org.asciidoctor.jvm.convert'
-  apply plugin: 'io.spring.dependency-management'
-
-  sonarqube {
-    properties {
-      property 'sonar.projectKey', ''
-      property 'sonar.qualitygate.wait', true
-    }
-  }
-
-  checkstyle {
-    toolVersion '10.11.0'
-    configFile rootProject.file('config/checkstyle/checkstyle.xml')
-  }
-
-  checkstyleMain {
-    source = 'src/main/java'
-    exclude '**/module-info.java'
-    exclude '**/package-info.java'
-  }
-
-  checkstyleTest {
-    source = 'src/test/java'
-  }
-
-  tasks.withType(JavaCompile).configureEach {
-    sourceCompatibility = 17
-    targetCompatibility = 17
-    options.encoding = 'UTF-8'
-  }
-
-  dependencyManagement {
-    imports {
-      mavenBom "org.springframework.boot:spring-boot-dependencies:${versions['spring-boot']}"
-      mavenBom "org.springframework.cloud:spring-cloud-dependencies:${versions['spring-cloud']}"
-      mavenBom "org.jmolecules:jmolecules-bom:2022.3.0"
-    }
-  }
-
-  dependencies {
-    implementation 'org.springframework:spring-context'
-
-    implementation 'org.jmolecules.integrations:jmolecules-starter-ddd'
-
-    compileOnly 'org.projectlombok:lombok'
-    annotationProcessor 'org.projectlombok:lombok'
-
-    implementation("org.axonframework:axon-spring-boot-starter:${versions['axon']}") {
-      exclude group: "org.axonframework", module: "axon-server-connector"
-    }
-    implementation("org.axonframework:axon-tracing-opentelemetry:${versions['axon']}")
-
-    implementation group: 'org.jetbrains', name: 'annotations', version: versions['jetbrains']
-  }
-
-  test {
-    useJUnitPlatform {
-      excludeTags "integration", "contract"
-    }
-  }
-
-  tasks.register('integrationTest', Test) {
-    useJUnitPlatform {
-      includeTags 'integration'
+    repositories {
+        mavenCentral()
     }
 
-    dependsOn testClasses
-  }
+    apply from: rootProject.file('versions.gradle')
 
-  tasks.register('contractTest', Test) {
-    useJUnitPlatform {
-      includeTags 'contract'
+    tasks.withType(JavaCompile).configureEach {
+        sourceCompatibility = 17
+        targetCompatibility = 17
+        options.encoding = 'UTF-8'
     }
 
-    dependsOn testClasses
-  }
+    dependencyManagement {
+        imports {
+            mavenBom "org.springframework.boot:spring-boot-dependencies:${versions['spring-boot']}"
+            mavenBom "org.springframework.cloud:spring-cloud-dependencies:${versions['spring-cloud']}"
+            mavenBom "org.jmolecules:jmolecules-bom:2022.3.0"
+        }
+    }
 
-  check.dependsOn integrationTest, contractTest
+    dependencies {
+        implementation 'org.liquibase:liquibase-core'
+        implementation 'org.springframework.boot:spring-boot-starter-web'
+        implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+        implementation 'org.springframework.boot:spring-boot-starter-actuator'
+        implementation 'org.springframework.boot:spring-boot-starter-security'
+        implementation 'org.springframework.boot:spring-boot-starter-validation'
+        implementation 'org.springframework.boot:spring-boot-starter-oauth2-client'
+        implementation 'org.springframework.boot:spring-boot-starter-oauth2-resource-server'
+
+        implementation 'org.jmolecules.integrations:jmolecules-starter-ddd'
+
+        implementation group: 'org.jetbrains', name: 'annotations', version: versions['jetbrains']
+
+        implementation 'io.micrometer:context-propagation'
+        implementation 'io.micrometer:micrometer-tracing-bridge-otel'
+        implementation 'io.opentelemetry:opentelemetry-exporter-zipkin'
+        runtimeOnly 'io.micrometer:micrometer-registry-prometheus'
+
+        implementation 'org.springdoc:springdoc-openapi-starter-webmvc-ui:2.1.0'
+
+        compileOnly 'jakarta.servlet:jakarta.servlet-api'
+        compileOnly 'org.projectlombok:lombok'
+
+        annotationProcessor 'org.projectlombok:lombok'
+
+        developmentOnly 'org.springframework.boot:spring-boot-docker-compose'
+
+        runtimeOnly 'org.postgresql:postgresql'
+        implementation group: 'net.lbruun.springboot', name: 'preliquibase-spring-boot-starter', version: versions['preliquibase']
+
+        testImplementation 'org.junit.jupiter:junit-jupiter-api'
+        testImplementation 'org.springframework.boot:spring-boot-starter-test'
+    }
 }
 
 dependencies {
-  implementation project(':notifications-management:api')
-  implementation project(':notifications-management:application')
-  implementation project(':cargo-management:api')
-  implementation project(':cargo-management:application')
-
-  implementation 'org.liquibase:liquibase-core'
-  implementation 'org.springframework.boot:spring-boot-starter-web'
-  implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
-  implementation 'org.springframework.boot:spring-boot-starter-actuator'
-  implementation 'org.springframework.boot:spring-boot-starter-security'
-  implementation 'org.springframework.boot:spring-boot-starter-oauth2-client'
-  implementation 'org.springframework.boot:spring-boot-starter-oauth2-resource-server'
-
-  implementation 'io.micrometer:context-propagation'
-  implementation 'io.micrometer:micrometer-tracing-bridge-otel'
-  implementation 'io.opentelemetry:opentelemetry-exporter-zipkin'
-  runtimeOnly 'io.micrometer:micrometer-registry-prometheus'
-
-  implementation 'org.springdoc:springdoc-openapi-starter-webmvc-ui:2.1.0'
-
-  compileOnly 'jakarta.servlet:jakarta.servlet-api'
-
-  developmentOnly 'org.springframework.boot:spring-boot-docker-compose'
-
-  runtimeOnly 'org.postgresql:postgresql'
-  implementation group: 'net.lbruun.springboot', name: 'preliquibase-spring-boot-starter', version: versions['preliquibase']
-
-  testImplementation 'org.junit.jupiter:junit-jupiter-api'
-  testImplementation 'org.springframework.boot:spring-boot-starter-test'
+    implementation project(':notifications-management:api')
+    implementation project(':notifications-management:application')
+    implementation project(':cargo-management:api')
+    implementation project(':cargo-management:application')
 }

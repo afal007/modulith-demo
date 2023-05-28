@@ -1,24 +1,22 @@
 package com.example.modulith.demo.cargo.management.application.infrastructure.database;
 
-import java.util.Optional;
-
+import com.example.modulith.demo.cargo.management.application.domain.transportation.request.TemperatureConditions;
+import com.example.modulith.demo.cargo.management.application.domain.transportation.request.TransportationRequest;
+import lombok.RequiredArgsConstructor;
 import org.jmolecules.ddd.annotation.Repository;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.example.modulith.demo.cargo.management.application.domain.transportation.request.TemperatureConditions;
-import com.example.modulith.demo.cargo.management.application.domain.transportation.request.TransportationRequest;
-import com.example.modulith.demo.cargo.management.application.domain.transportation.request.TransportationRequestRepository;
-
-import lombok.RequiredArgsConstructor;
+import java.util.Optional;
 
 @Component
 @Repository
 @Transactional(readOnly = true)
 @RequiredArgsConstructor
-public class TransportationRequestJpaRepository implements TransportationRequestRepository {
+public class TransportationRequestJpaRepository implements
+    com.example.modulith.demo.cargo.management.application.domain.transportation.request.TransportationRequestRepository {
 
-    private final TransportationRequestDAO transportationRequestDAO;
+    private final TransportationRequestRepository transportationRequestDAO;
 
     @Override
     @Transactional

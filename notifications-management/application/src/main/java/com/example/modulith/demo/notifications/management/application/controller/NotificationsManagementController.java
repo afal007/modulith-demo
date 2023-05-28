@@ -1,11 +1,11 @@
 package com.example.modulith.demo.notifications.management.application.controller;
 
-import java.util.List;
-import java.util.Optional;
-import java.util.UUID;
-
-import org.axonframework.messaging.responsetypes.ResponseTypes;
-import org.axonframework.queryhandling.QueryGateway;
+import com.example.modulith.demo.notifications.management.api.model.NotificationDTO;
+import com.example.modulith.demo.notifications.management.api.model.NotificationSettingsDTO;
+import com.example.modulith.demo.notifications.management.api.spring.web.NotificationV1Api;
+import com.example.modulith.demo.notifications.management.application.usecase.GetNotificationsByUserIdQuery;
+import com.example.modulith.demo.notifications.management.application.usecase.GetUserNotificationsQueryHandler;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -13,18 +13,15 @@ import org.springframework.security.oauth2.jwt.JwtClaimAccessor;
 import org.springframework.security.oauth2.server.resource.authentication.JwtAuthenticationToken;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.example.modulith.demo.notifications.management.api.model.NotificationDTO;
-import com.example.modulith.demo.notifications.management.api.model.NotificationSettingsDTO;
-import com.example.modulith.demo.notifications.management.api.spring.web.NotificationV1Api;
-import com.example.modulith.demo.notifications.management.application.usecase.GetNotificationsByUserIdQuery;
-
-import lombok.RequiredArgsConstructor;
+import java.util.List;
+import java.util.Optional;
+import java.util.UUID;
 
 @RestController
 @RequiredArgsConstructor
 public class NotificationsManagementController implements NotificationV1Api {
 
-    private final QueryGateway queryGateway;
+    private final GetUserNotificationsQueryHandler queryHandler;
 
     @Override
     public ResponseEntity<NotificationSettingsDTO> getV1UsersCurrentNotificationSettings() {
@@ -33,9 +30,8 @@ public class NotificationsManagementController implements NotificationV1Api {
 
     @Override
     public ResponseEntity<List<NotificationDTO>> getV1UsersCurrentNotifications() {
-        return ResponseEntity.ok(queryGateway.query(new GetNotificationsByUserIdQuery(getCurrentUserId().orElseThrow()),
-            ResponseTypes.multipleInstancesOf(NotificationDTO.class)
-        ).join());
+        var result = queryHandler.execute(new GetNotificationsByUserIdQuery(getCurrentUserId().orElseThrow()));
+        return ResponseEntity.ok(result);
     }
 
     @Override
@@ -45,9 +41,8 @@ public class NotificationsManagementController implements NotificationV1Api {
 
     @Override
     public ResponseEntity<List<NotificationDTO>> getV1UsersIdNotifications(UUID id) {
-        return ResponseEntity.ok(queryGateway.query(new GetNotificationsByUserIdQuery(id),
-            ResponseTypes.multipleInstancesOf(NotificationDTO.class)
-        ).join());
+        var result = queryHandler.execute(new GetNotificationsByUserIdQuery(id));
+        return ResponseEntity.ok(result);
     }
 
     @Override

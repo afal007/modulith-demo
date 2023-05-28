@@ -5,6 +5,5 @@ ext.versions = [
   'spring-boot'   : '3.1.0',
   'preliquibase'  : '1.4.0',
   'mapstruct'     : '1.5.2.Final',
-  'testcontainers': '2.2.9',
-  'axon'          : '4.7.5'
+  'testcontainers': '2.2.9'
 ]

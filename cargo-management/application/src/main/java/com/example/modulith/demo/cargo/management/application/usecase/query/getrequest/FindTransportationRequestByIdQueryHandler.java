@@ -1,11 +1,5 @@
 package com.example.modulith.demo.cargo.management.application.usecase.query.getrequest;
 
-import java.util.Optional;
-
-import org.axonframework.queryhandling.QueryHandler;
-import org.springframework.stereotype.Component;
-import org.springframework.transaction.annotation.Transactional;
-
 import com.example.modulith.demo.cargo.management.api.model.CargoDTO;
 import com.example.modulith.demo.cargo.management.api.model.CoordinatesDTO;
 import com.example.modulith.demo.cargo.management.api.model.RouteDTO;
@@ -13,17 +7,19 @@ import com.example.modulith.demo.cargo.management.api.model.TemperatureCondition
 import com.example.modulith.demo.cargo.management.api.model.TrailerRequirementsDTO;
 import com.example.modulith.demo.cargo.management.api.model.TransportationRequestDTO;
 import com.example.modulith.demo.cargo.management.api.model.WaypointDTO;
-import com.example.modulith.demo.cargo.management.application.infrastructure.database.TransportationRequestDAO;
-
+import com.example.modulith.demo.cargo.management.application.infrastructure.database.TransportationRequestRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
+
+import java.util.Optional;
 
 @Component
 @RequiredArgsConstructor
 public class FindTransportationRequestByIdQueryHandler {
 
-    private final TransportationRequestDAO transportationRequestDAO;
+    private final TransportationRequestRepository transportationRequestDAO;
 
-    @QueryHandler
     @Transactional(readOnly = true)
     public Optional<TransportationRequestDTO> handle(
         FindTransportationRequestByIdQuery findTransportationRequestByIdQuery

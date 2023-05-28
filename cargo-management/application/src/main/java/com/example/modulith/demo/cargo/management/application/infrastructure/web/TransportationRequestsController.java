@@ -1,17 +1,5 @@
 package com.example.modulith.demo.cargo.management.application.infrastructure.web;
 
-import java.math.BigDecimal;
-import java.net.URI;
-import java.time.OffsetDateTime;
-import java.util.stream.Collectors;
-
-import org.axonframework.commandhandling.gateway.CommandGateway;
-import org.axonframework.messaging.responsetypes.ResponseTypes;
-import org.axonframework.queryhandling.QueryGateway;
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
-
 import com.example.modulith.demo.cargo.management.api.model.CargoDTO;
 import com.example.modulith.demo.cargo.management.api.model.TemperatureConditionsDTO;
 import com.example.modulith.demo.cargo.management.api.model.TrailerRequirementsDTO;
@@ -27,26 +15,34 @@ import com.example.modulith.demo.cargo.management.application.domain.transportat
 import com.example.modulith.demo.cargo.management.application.domain.transportation.request.Waypoint;
 import com.example.modulith.demo.cargo.management.application.usecase.command.createrequest.CreateTransportationRequestCommand;
 import com.example.modulith.demo.cargo.management.application.usecase.query.getrequest.FindTransportationRequestByIdQuery;
-
+import com.example.modulith.demo.cargo.management.application.usecase.query.getrequest.FindTransportationRequestByIdQueryHandler;
 import lombok.RequiredArgsConstructor;
+import org.springframework.context.ApplicationEventPublisher;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
+
+import java.math.BigDecimal;
+import java.net.URI;
+import java.time.OffsetDateTime;
+import java.util.stream.Collectors;
 
 @RestController
 @RequiredArgsConstructor
 public class TransportationRequestsController implements TransportationRequestV1Api {
 
-    private final QueryGateway queryGateway;
-    private final CommandGateway commandGateway;
+    private final FindTransportationRequestByIdQueryHandler queryHandler;
+    private final ApplicationEventPublisher eventPublisher;
 
     @Override
     public ResponseEntity<TransportationRequestDTO> getV1TransportationRequestsId(Long id) {
-        return ResponseEntity.of(queryGateway.query(new FindTransportationRequestByIdQuery(id),
-            ResponseTypes.optionalInstanceOf(TransportationRequestDTO.class)
-        ).join());
+        var result = queryHandler.handle(new FindTransportationRequestByIdQuery(id));
+        return ResponseEntity.of(result);
     }
 
     @Override
     public ResponseEntity<Void> postV1TransportationRequests(TransportationRequestDTO transportationRequestDTO) {
-        long id = commandGateway.sendAndWait(new CreateTransportationRequestCommand(map(transportationRequestDTO)));
+        long id = eventPublisher.publishEvent(new CreateTransportationRequestCommand(map(transportationRequestDTO)));
         URI location = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(id).toUri();
         return ResponseEntity.created(location).build();
     }
