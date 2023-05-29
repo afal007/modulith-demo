@@ -3,6 +3,7 @@ package com.example.modulith.demo.cargo.management.application.infrastructure.we
 import java.math.BigDecimal;
 import java.net.URI;
 import java.time.OffsetDateTime;
+import java.util.Currency;
 import java.util.stream.Collectors;
 
 import org.axonframework.commandhandling.gateway.CommandGateway;
@@ -59,7 +60,7 @@ public class TransportationRequestsController implements TransportationRequestV1
             .transportationType(
                 TransportationRequest.TransportationTypeEnum.valueOf(dto.getTransportationType().name()))
             .comment(dto.getComment())
-            .freight(new Freight(new BigDecimal(dto.getFreight())))
+            .freight(new Freight(new BigDecimal(dto.getFreight()), Currency.getInstance(dto.getCurrencyCode())))
             .sourceNumber(dto.getSourceNumber())
             .cargo(new Cargo(cargoDTO.getCargoType(), new BigDecimal(cargoDTO.getCost()), cargoDTO.getVolume(),
                 cargoDTO.getWeight()

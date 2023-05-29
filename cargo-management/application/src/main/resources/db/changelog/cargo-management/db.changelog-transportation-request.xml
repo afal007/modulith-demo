@@ -26,6 +26,7 @@ http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.1.xsd">
         UPDATED_AT               timestamptz,
         CREATED_BY               uuid        not null,
         FREIGHT                  numeric(15, 2),
+        CURRENCY_CODE            varchar,
         CARGO_TYPE               varchar,
         CARGO_COST               numeric(15, 2),
         CARGO_VOLUME             float,
@@ -53,6 +54,8 @@ http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.1.xsd">
       on column CARGO_MANAGEMENT.TRANSPORTATION_REQUEST.CREATED_AT is E'Дата и время с часовым поясом создания заявки';
       COMMENT
       on column CARGO_MANAGEMENT.TRANSPORTATION_REQUEST.FREIGHT is E'Сумма фрахта';
+      COMMENT
+      on column CARGO_MANAGEMENT.TRANSPORTATION_REQUEST.FREIGHT is E'Код валюты в формате ISO 4217';
       COMMENT
       on column CARGO_MANAGEMENT.TRANSPORTATION_REQUEST.CARGO_TYPE is E'Тип груза';
       COMMENT

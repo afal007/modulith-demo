@@ -14,6 +14,10 @@ findProject(':notifications-management:api')?.name = 'notifications-management-a
 include 'notifications-management:application'
 findProject(':notifications-management:application')?.name = 'notifications-management-application'
 
-include 'client-management'
 include 'catalogue-management'
+include 'catalogue-management:api'
+findProject(':catalogue-management:api')?.name = 'catalogue-management-api'
+include 'catalogue-management:application'
+findProject(':catalogue-management:application')?.name = 'catalogue-management-application'
 
+include 'client-management'

@@ -1,0 +1,50 @@
+plugins {
+    id 'java-library'
+    id 'org.openapi.generator' version '6.6.0'
+}
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    implementation 'org.springframework:spring-web'
+    implementation 'org.springframework:spring-context'
+
+    implementation group: 'io.swagger.core.v3', name: 'swagger-annotations-jakarta', version: '2.2.7'
+
+    implementation group: 'jakarta.servlet', name: 'jakarta.servlet-api', version: '6.0.0'
+    implementation group: 'jakarta.validation', name: 'jakarta.validation-api', version: '3.0.2'
+    implementation group: 'jakarta.annotation', name: 'jakarta.annotation-api', version: '2.1.1'
+
+    implementation group: 'com.fasterxml.jackson.core', name: 'jackson-annotations', version: '2.14.1'
+
+    implementation group: 'org.openapitools', name: 'jackson-databind-nullable', version: '0.2.6'
+}
+
+openApiGenerate {
+    generatorName = "spring"
+    inputSpec = "$projectDir/src/main/resources/openapi.yaml"
+    outputDir = "$buildDir/generated"
+    apiPackage = "com.example.modulith.demo.catalogue.management.api.spring.web"
+    invokerPackage = "com.example.modulith.demo.catalogue.management"
+    modelPackage = "com.example.modulith.demo.catalogue.management.api.model"
+    modelNameSuffix = "DTO"
+    configOptions['useTags'] = 'true'
+    configOptions['dateLibrary'] = 'java8'
+    configOptions['interfaceOnly'] = 'true'
+    configOptions['useSpringBoot3'] = 'true'
+}
+
+tasks.openApiGenerate {
+    doLast {
+        delete(
+          "$buildDir/generated/pom.xml"
+        )
+    }
+}
+
+compileJava.dependsOn tasks.openApiGenerate
+processResources.dependsOn tasks.openApiGenerate
+sourceSets.main.java.srcDir "$buildDir/generated/src/main/java"
+sourceSets.main.resources.srcDir "$buildDir/generated/src/main/resources"

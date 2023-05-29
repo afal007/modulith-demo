@@ -25,6 +25,7 @@ public class TransportationRequestJpaRepository implements TransportationRequest
     public TransportationRequest add(TransportationRequest transportationRequest) {
         TransportationRequestEntity entity = new TransportationRequestEntity();
         entity.setFreight(transportationRequest.getFreight().value());
+        entity.setCurrencyCode(transportationRequest.getFreight().currency().getCurrencyCode());
         entity.setCargoType(transportationRequest.getCargo().type());
         entity.setCargoCost(transportationRequest.getCargo().cost());
         entity.setCargoVolume(transportationRequest.getCargo().volume());

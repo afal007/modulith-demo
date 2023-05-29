@@ -7,6 +7,8 @@ dependencies {
   implementation project(':notifications-management:notifications-management-application')
   implementation project(':cargo-management:cargo-management-api')
   implementation project(':cargo-management:cargo-management-application')
+  implementation project(':catalogue-management:catalogue-management-api')
+  implementation project(':catalogue-management:catalogue-management-application')
 
   implementation 'org.liquibase:liquibase-core'
   implementation 'org.springframework.boot:spring-boot-starter-web'

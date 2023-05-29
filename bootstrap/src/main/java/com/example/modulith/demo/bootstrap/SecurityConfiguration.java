@@ -41,7 +41,7 @@ class SecurityConfiguration {
             .sessionManagement(configurer -> configurer.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
             .csrf(AbstractHttpConfigurer::disable)
             .authorizeHttpRequests(c -> c.anyRequest().authenticated())
-            .oauth2Client(c -> {})
+            .oauth2Client(c -> { })
             .oauth2ResourceServer(c -> c.jwt(ic -> ic.jwtAuthenticationConverter(converter)))
             .build();
     }

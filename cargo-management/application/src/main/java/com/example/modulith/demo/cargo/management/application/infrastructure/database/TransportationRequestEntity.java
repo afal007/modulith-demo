@@ -52,6 +52,7 @@ public class TransportationRequestEntity {
     @UpdateTimestamp
     private OffsetDateTime updatedAt;
 
+    private String currencyCode;
     private BigDecimal freight;
 
     private String cargoType;

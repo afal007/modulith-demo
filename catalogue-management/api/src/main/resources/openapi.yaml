@@ -1,7 +1,7 @@
 openapi: 3.0.3
 info:
   title: Cargo Management
-  description: 'Управление грузами'
+  description: 'Управление каталогом'
   contact:
     email: aleksandr.fal@gt-m.ru
     name: Александр Фаль
@@ -20,63 +20,19 @@ security:
       - read
       - write
 tags:
-  - name: TransportationRequestV1
-    description: Методы для работы с заявками
+  - name: TransportationRequestCardV1
+    description: Методы для работы с карточками заявок
 paths:
-  /v1/transportation-requests:
-    post:
-      tags:
-        - TransportationRequestV1
-      summary: Создание новой заявки
-      operationId: post-v1-transportation-requests
-      requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/TransportationRequest'
-            example:
-              {
-                "freight": "100000.00",
-                "currencyCode": "RUR",
-                "cargo": {
-                  "cargoType": "Палеты",
-                  "cost": "1000000.00"
-                },
-                "trailerRequirements": {
-                  "type": "AWNING",
-                  "loadingType": "UPPER"
-                },
-                "route": {
-                  "waypointList": [
-                    {
-                      "type": "LOADING",
-                      "address": "Москва, Гиляровского 39с1",
-                      "dateTimeStart": "2023-05-01T12:00:00Z",
-                      "dateTimeEnd": "2023-05-01T15:00:00Z"
-                    },
-                    {
-                      "type": "UNLOADING",
-                      "address": "Новосибирск, Петухова 79",
-                      "dateTimeStart": "2023-05-06T12:00:00Z",
-                      "dateTimeEnd": "2023-05-06T15:00:00Z"
-                    }
-                  ]
-                },
-                "transportationType": "INTERCITY"
-              }
-      responses:
-        201:
-          description: Заявка создана
-  /v1/transportation-requests/{id}:
+  /v1/transportation-request-cards/{id}:
     get:
       tags:
-        - TransportationRequestV1
-      summary: Получение заявки по идентификатору
-      operationId: get-v1-transportation-requests-id
+        - TransportationRequestCardV1
+      summary: Получение карточки заявки по идентификатору
+      operationId: get-v1-transportation-request-cards-id
       parameters:
         - name: id
           in: path
-          description: Идентификатор заявки
+          description: Идентификатор карточки заявки
           required: true
           schema:
             type: integer
@@ -87,7 +43,29 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/TransportationRequest'
+                $ref: '#/components/schemas/TransportationRequestCard'
+  /v1/transportation-request-cards:
+    get:
+      tags:
+        - TransportationRequestCardV1
+      summary: Получение заявки по идентификатору
+      operationId: get-v1-transportation-requests-id
+      parameters:
+        - name: pageable
+          in: query
+          schema:
+            $ref: '#/components/schemas/Pageable'
+        - name: filter
+          in: query
+          schema:
+            $ref: '#/components/schemas/Filter'
+      responses:
+        200:
+          description: Успех
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TransportationRequestCardPage'
 components:
   schemas:
     Cargo:
@@ -109,20 +87,14 @@ components:
         weight:
           type: number
           format: float
-    TransportationRequest:
-      description: Создание заявки на перевозку
+    TransportationRequestCard:
+      description: Карточка заявки на перевозку
       type: object
       properties:
-        id:
-          type: integer
-          format: int64
         freight:
           type: string
           pattern: '^\d+\.\d{2}$'
           description: Сумма фрахта с НДС
-        currencyCode:
-          type: string
-          description: Код валюты в формате ISO 4217
         cargo:
           $ref: '#/components/schemas/Cargo'
         trailerRequirements:
@@ -226,6 +198,60 @@ components:
           type: string
           pattern: '^\d+\.\d+$'
           description: Широта
+    Pageable:
+      type: object
+      properties:
+        size:
+          description: Размер страницы
+          default: 10
+          example: 10
+          type: integer
+        page:
+          description: Номер страницы
+          default: 1
+          example: 1
+          type: integer
+        q:
+          description: Полнотекстовый поиск
+          example: text
+          type: string
+    Filter:
+      type: object
+      properties:
+        authorIds:
+          description: Множество идентификаторов авторов для поиска
+          example: [ 'f6787b66-1b25-406d-8878-88b5fbc61a79', '871e31dc-1c21-405f-99f3-89ffb9b3eb7b' ]
+          type: array
+          items:
+            type: string
+            format: uuid
+    TransportationRequestCardPage:
+      type: object
+      properties:
+        totalPages:
+          type: integer
+          format: int32
+          description: Общее количество страниц
+        totalElements:
+          type: integer
+          format: int64
+          description: Общее количество элементов
+        number:
+          type: integer
+          format: int32
+          description: Номер страницы
+        size:
+          type: integer
+          format: int32
+          description: Размер страницы
+        numberOfElements:
+          type: integer
+          format: int32
+          description: Количество элементов на текущей странице
+        content:
+          type: array
+          items:
+            $ref: '#/components/schemas/TransportationRequestCard'
   securitySchemes:
     bearer-token:
       type: http

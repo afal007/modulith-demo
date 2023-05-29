@@ -1,10 +1,10 @@
 {
 	"info": {
-		"_postman_id": "b9a8fed7-ae50-4509-843c-6159b7d08892",
+		"_postman_id": "6acbcc42-e451-46fd-83d9-453a939a2902",
 		"name": "Modulith Demo",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
 		"_exporter_id": "15203326",
-		"_collection_link": "https://gt2-crm.postman.co/workspace/My-Workspace~2b7289fe-0a5b-4e90-8697-ecb4142165d6/collection/15203326-b9a8fed7-ae50-4509-843c-6159b7d08892?action=share&creator=15203326&source=collection_link"
+		"_collection_link": "https://gt2-crm.postman.co/workspace/2b7289fe-0a5b-4e90-8697-ecb4142165d6/collection/15203326-6acbcc42-e451-46fd-83d9-453a939a2902?action=share&creator=15203326&source=collection_link"
 	},
 	"item": [
 		{
@@ -164,7 +164,7 @@
 														}
 													],
 													"cookie": [],
-													"body": "{\n  \"channel\": \"TELEGRAM\",\n  \"enabled\": \"<boolean>\"\n}"
+													"body": "{\n  \"channel\": \"EMAIL\",\n  \"enabled\": \"<boolean>\"\n}"
 												}
 											]
 										},
@@ -180,7 +180,7 @@
 												],
 												"body": {
 													"mode": "raw",
-													"raw": "{\n  \"channel\": \"TELEGRAM\",\n  \"enabled\": \"<boolean>\"\n}",
+													"raw": "{\n  \"channel\": \"EMAIL\",\n  \"enabled\": \"<boolean>\"\n}",
 													"options": {
 														"raw": {
 															"headerFamily": "json",
@@ -220,7 +220,7 @@
 														],
 														"body": {
 															"mode": "raw",
-															"raw": "{\n  \"channel\": \"TELEGRAM\",\n  \"enabled\": \"<boolean>\"\n}",
+															"raw": "{\n  \"channel\": \"EMAIL\",\n  \"enabled\": \"<boolean>\"\n}",
 															"options": {
 																"raw": {
 																	"headerFamily": "json",
@@ -388,7 +388,7 @@
 														}
 													],
 													"cookie": [],
-													"body": "{\n  \"channel\": \"TELEGRAM\",\n  \"enabled\": \"<boolean>\"\n}"
+													"body": "{\n  \"channel\": \"EMAIL\",\n  \"enabled\": \"<boolean>\"\n}"
 												}
 											]
 										},
@@ -404,7 +404,7 @@
 												],
 												"body": {
 													"mode": "raw",
-													"raw": "{\n  \"channel\": \"TELEGRAM\",\n  \"enabled\": \"<boolean>\"\n}",
+													"raw": "{\n  \"channel\": \"EMAIL\",\n  \"enabled\": \"<boolean>\"\n}",
 													"options": {
 														"raw": {
 															"headerFamily": "json",
@@ -438,7 +438,7 @@
 														],
 														"body": {
 															"mode": "raw",
-															"raw": "{\n  \"channel\": \"TELEGRAM\",\n  \"enabled\": \"<boolean>\"\n}",
+															"raw": "{\n  \"channel\": \"EMAIL\",\n  \"enabled\": \"<boolean>\"\n}",
 															"options": {
 																"raw": {
 																	"headerFamily": "json",
@@ -546,7 +546,7 @@
 												}
 											],
 											"cookie": [],
-											"body": "{\n  \"cargo\": {\n    \"cargoType\": \"<string>\",\n    \"cost\": \"73142411031.80\",\n    \"volume\": \"<float>\",\n    \"weight\": \"<float>\"\n  },\n  \"freight\": \"040449.51\",\n  \"trailerRequirements\": {\n    \"type\": \"AWNING\",\n    \"loadingType\": \"UPPER\",\n    \"volume\": \"<float>\",\n    \"loadCapacity\": \"<float>\",\n    \"temperatureConditions\": {\n      \"temperatureFrom\": \"<integer>\",\n      \"temperatureTo\": \"<integer>\"\n    }\n  },\n  \"route\": {\n    \"waypointList\": [\n      {\n        \"address\": \"<string>\",\n        \"dateTimeEnd\": \"<string>\",\n        \"dateTimeStart\": \"<string>\",\n        \"type\": \"UNLOADING\",\n        \"coordinates\": {\n          \"latitude\": \"01017689.04\",\n          \"longitude\": \"88.497\"\n        },\n        \"organizationId\": \"<uuid>\"\n      },\n      {\n        \"address\": \"<string>\",\n        \"dateTimeEnd\": \"<string>\",\n        \"dateTimeStart\": \"<string>\",\n        \"type\": \"LOADING\",\n        \"coordinates\": {\n          \"latitude\": \"24856.77\",\n          \"longitude\": \"08617789.28756610\"\n        },\n        \"organizationId\": \"<uuid>\"\n      }\n    ]\n  },\n  \"transportationType\": \"INTERCITY\",\n  \"sourceNumber\": \"<string>\",\n  \"comment\": \"<string>\"\n}"
+											"body": "{\n  \"id\": \"<long>\",\n  \"freight\": \"6315394.86\",\n  \"currencyCode\": \"<string>\",\n  \"cargo\": {\n    \"cargoType\": \"<string>\",\n    \"cost\": \"1604.81\",\n    \"volume\": \"<float>\",\n    \"weight\": \"<float>\"\n  },\n  \"trailerRequirements\": {\n    \"type\": \"ISOTHERMAL\",\n    \"loadingType\": \"REAR\",\n    \"volume\": \"<float>\",\n    \"loadCapacity\": \"<float>\",\n    \"temperatureConditions\": {\n      \"temperatureFrom\": \"<integer>\",\n      \"temperatureTo\": \"<integer>\"\n    }\n  },\n  \"route\": {\n    \"waypointList\": [\n      {\n        \"address\": \"<string>\",\n        \"dateTimeEnd\": \"<string>\",\n        \"dateTimeStart\": \"<string>\",\n        \"type\": \"LOADING\",\n        \"coordinates\": {\n          \"latitude\": \"2.8553998\",\n          \"longitude\": \"35465787.56\"\n        },\n        \"organizationId\": \"<uuid>\"\n      },\n      {\n        \"address\": \"<string>\",\n        \"dateTimeEnd\": \"<string>\",\n        \"dateTimeStart\": \"<string>\",\n        \"type\": \"UNLOADING\",\n        \"coordinates\": {\n          \"latitude\": \"907664.7\",\n          \"longitude\": \"6875784135.83678516\"\n        },\n        \"organizationId\": \"<uuid>\"\n      }\n    ]\n  },\n  \"transportationType\": \"INTERCITY\",\n  \"sourceNumber\": \"<string>\",\n  \"comment\": \"<string>\"\n}"
 										}
 									]
 								}
@@ -564,7 +564,7 @@
 								],
 								"body": {
 									"mode": "raw",
-									"raw": "{\n    \"freight\": \"100000.00\",\n    \"cargo\": {\n        \"cargoType\": \"Палеты\",\n        \"cost\": \"1000000.00\"\n    },\n    \"trailerRequirements\": {\n        \"type\": \"AWNING\",\n        \"loadingType\": \"UPPER\"\n    },\n    \"route\": {\n        \"waypointList\": [\n            {\n                \"type\": \"LOADING\",\n                \"address\": \"Москва, Гиляровского 39с1\",\n                \"dateTimeStart\": \"2023-05-01T12:00:00Z\",\n                \"dateTimeEnd\": \"2023-05-01T15:00:00Z\"\n            },\n            {\n                \"type\": \"UNLOADING\",\n                \"address\": \"Новосибирск, Петухова 79\",\n                \"dateTimeStart\": \"2023-05-06T12:00:00Z\",\n                \"dateTimeEnd\": \"2023-05-06T15:00:00Z\"\n            }\n        ]\n    },\n    \"transportationType\": \"INTERCITY\"\n}",
+									"raw": "{\n    \"freight\": \"100000.00\",\n    \"currencyCode\": \"RUR\",\n    \"cargo\": {\n        \"cargoType\": \"Палеты\",\n        \"cost\": \"1000000.00\"\n    },\n    \"trailerRequirements\": {\n        \"type\": \"AWNING\",\n        \"loadingType\": \"UPPER\"\n    },\n    \"route\": {\n        \"waypointList\": [\n            {\n                \"type\": \"LOADING\",\n                \"address\": \"Москва, Гиляровского 39с1\",\n                \"dateTimeStart\": \"2023-05-01T12:00:00Z\",\n                \"dateTimeEnd\": \"2023-05-01T15:00:00Z\"\n            },\n            {\n                \"type\": \"UNLOADING\",\n                \"address\": \"Новосибирск, Петухова 79\",\n                \"dateTimeStart\": \"2023-05-06T12:00:00Z\",\n                \"dateTimeEnd\": \"2023-05-06T15:00:00Z\"\n            }\n        ]\n    },\n    \"transportationType\": \"INTERCITY\"\n}",
 									"options": {
 										"raw": {
 											"headerFamily": "json",
@@ -596,7 +596,7 @@
 										],
 										"body": {
 											"mode": "raw",
-											"raw": "{\n  \"cargo\": {\n    \"cargoType\": \"<string>\",\n    \"cost\": \"73142411031.80\",\n    \"volume\": \"<float>\",\n    \"weight\": \"<float>\"\n  },\n  \"freight\": \"040449.51\",\n  \"trailerRequirements\": {\n    \"type\": \"AWNING\",\n    \"loadingType\": \"UPPER\",\n    \"volume\": \"<float>\",\n    \"loadCapacity\": \"<float>\",\n    \"temperatureConditions\": {\n      \"temperatureFrom\": \"<integer>\",\n      \"temperatureTo\": \"<integer>\"\n    }\n  },\n  \"route\": {\n    \"waypointList\": [\n      {\n        \"address\": \"<string>\",\n        \"dateTimeEnd\": \"<string>\",\n        \"dateTimeStart\": \"<string>\",\n        \"type\": \"UNLOADING\",\n        \"coordinates\": {\n          \"latitude\": \"01017689.04\",\n          \"longitude\": \"88.497\"\n        },\n        \"organizationId\": \"<uuid>\"\n      },\n      {\n        \"address\": \"<string>\",\n        \"dateTimeEnd\": \"<string>\",\n        \"dateTimeStart\": \"<string>\",\n        \"type\": \"LOADING\",\n        \"coordinates\": {\n          \"latitude\": \"24856.77\",\n          \"longitude\": \"08617789.28756610\"\n        },\n        \"organizationId\": \"<uuid>\"\n      }\n    ]\n  },\n  \"transportationType\": \"INTERCITY\",\n  \"sourceNumber\": \"<string>\",\n  \"comment\": \"<string>\"\n}",
+											"raw": "{\n  \"id\": \"<long>\",\n  \"freight\": \"6315394.86\",\n  \"currencyCode\": \"<string>\",\n  \"cargo\": {\n    \"cargoType\": \"<string>\",\n    \"cost\": \"1604.81\",\n    \"volume\": \"<float>\",\n    \"weight\": \"<float>\"\n  },\n  \"trailerRequirements\": {\n    \"type\": \"ISOTHERMAL\",\n    \"loadingType\": \"REAR\",\n    \"volume\": \"<float>\",\n    \"loadCapacity\": \"<float>\",\n    \"temperatureConditions\": {\n      \"temperatureFrom\": \"<integer>\",\n      \"temperatureTo\": \"<integer>\"\n    }\n  },\n  \"route\": {\n    \"waypointList\": [\n      {\n        \"address\": \"<string>\",\n        \"dateTimeEnd\": \"<string>\",\n        \"dateTimeStart\": \"<string>\",\n        \"type\": \"LOADING\",\n        \"coordinates\": {\n          \"latitude\": \"2.8553998\",\n          \"longitude\": \"35465787.56\"\n        },\n        \"organizationId\": \"<uuid>\"\n      },\n      {\n        \"address\": \"<string>\",\n        \"dateTimeEnd\": \"<string>\",\n        \"dateTimeStart\": \"<string>\",\n        \"type\": \"UNLOADING\",\n        \"coordinates\": {\n          \"latitude\": \"907664.7\",\n          \"longitude\": \"6875784135.83678516\"\n        },\n        \"organizationId\": \"<uuid>\"\n      }\n    ]\n  },\n  \"transportationType\": \"INTERCITY\",\n  \"sourceNumber\": \"<string>\",\n  \"comment\": \"<string>\"\n}",
 											"options": {
 												"raw": {
 													"headerFamily": "json",
@@ -625,6 +625,187 @@
 							]
 						}
 					]
+				},
+				{
+					"name": "transportation-request-cards",
+					"item": [
+						{
+							"name": "{id}",
+							"item": [
+								{
+									"name": "Получение карточки заявки по идентификатору",
+									"request": {
+										"method": "GET",
+										"header": [
+											{
+												"key": "Accept",
+												"value": "application/json"
+											}
+										],
+										"url": {
+											"raw": "{{baseUrl}}/v1/transportation-request-cards/:id",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"v1",
+												"transportation-request-cards",
+												":id"
+											],
+											"variable": [
+												{
+													"key": "id",
+													"value": "8"
+												}
+											]
+										}
+									},
+									"response": [
+										{
+											"name": "Успех",
+											"originalRequest": {
+												"method": "GET",
+												"header": [
+													{
+														"key": "Accept",
+														"value": "application/json"
+													}
+												],
+												"url": {
+													"raw": "{{baseUrl}}/v1/transportation-request-cards/:id",
+													"host": [
+														"{{baseUrl}}"
+													],
+													"path": [
+														"v1",
+														"transportation-request-cards",
+														":id"
+													],
+													"variable": [
+														{
+															"key": "id"
+														}
+													]
+												}
+											},
+											"status": "OK",
+											"code": 200,
+											"_postman_previewlanguage": "json",
+											"header": [
+												{
+													"key": "Content-Type",
+													"value": "application/json"
+												}
+											],
+											"cookie": [],
+											"body": "{\n  \"freight\": \"80838925.73\",\n  \"cargo\": {\n    \"cargoType\": \"<string>\",\n    \"cost\": \"5478.42\",\n    \"volume\": \"<float>\",\n    \"weight\": \"<float>\"\n  },\n  \"trailerRequirements\": {\n    \"type\": \"REFRIGERATOR\",\n    \"loadingType\": \"UPPER\",\n    \"volume\": \"<float>\",\n    \"loadCapacity\": \"<float>\",\n    \"temperatureConditions\": {\n      \"temperatureFrom\": \"<integer>\",\n      \"temperatureTo\": \"<integer>\"\n    }\n  },\n  \"route\": {\n    \"waypointList\": [\n      {\n        \"address\": \"<string>\",\n        \"dateTimeEnd\": \"<string>\",\n        \"dateTimeStart\": \"<string>\",\n        \"type\": \"LOADING\",\n        \"coordinates\": {\n          \"latitude\": \"435.6065017\",\n          \"longitude\": \"21524716.71076\"\n        },\n        \"organizationId\": \"<uuid>\"\n      },\n      {\n        \"address\": \"<string>\",\n        \"dateTimeEnd\": \"<string>\",\n        \"dateTimeStart\": \"<string>\",\n        \"type\": \"LOADING\",\n        \"coordinates\": {\n          \"latitude\": \"6980368633.61\",\n          \"longitude\": \"8750092.931682\"\n        },\n        \"organizationId\": \"<uuid>\"\n      }\n    ]\n  },\n  \"transportationType\": \"INTERNATIONAL\",\n  \"sourceNumber\": \"<string>\",\n  \"comment\": \"<string>\"\n}"
+										}
+									]
+								}
+							]
+						},
+						{
+							"name": "Получение заявки по идентификатору",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json"
+									}
+								],
+								"url": {
+									"raw": "{{baseUrl}}/v1/transportation-request-cards?size=10&page=0&q=Мо",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"v1",
+										"transportation-request-cards"
+									],
+									"query": [
+										{
+											"key": "size",
+											"value": "10",
+											"description": "(Required) "
+										},
+										{
+											"key": "page",
+											"value": "0",
+											"description": "(Required) "
+										},
+										{
+											"key": "authorIds",
+											"value": "<uuid>,<uuid>",
+											"description": "(Required) ",
+											"disabled": true
+										},
+										{
+											"key": "q",
+											"value": "Мо"
+										}
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "Успех",
+									"originalRequest": {
+										"method": "GET",
+										"header": [
+											{
+												"key": "Accept",
+												"value": "application/json"
+											}
+										],
+										"url": {
+											"raw": "{{baseUrl}}/v1/transportation-request-cards?size=<integer>&page=<integer>&q=<string>&authorIds=<uuid>,<uuid>",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"v1",
+												"transportation-request-cards"
+											],
+											"query": [
+												{
+													"key": "size",
+													"value": "<integer>",
+													"description": "(Required) "
+												},
+												{
+													"key": "page",
+													"value": "<integer>",
+													"description": "(Required) "
+												},
+												{
+													"key": "q",
+													"value": "<string>",
+													"description": "(Required) "
+												},
+												{
+													"key": "authorIds",
+													"value": "<uuid>,<uuid>",
+													"description": "(Required) "
+												}
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										}
+									],
+									"cookie": [],
+									"body": "{\n  \"totalPages\": \"<integer>\",\n  \"totalElements\": \"<long>\",\n  \"number\": \"<integer>\",\n  \"size\": \"<integer>\",\n  \"numberOfElements\": \"<integer>\",\n  \"content\": [\n    {\n      \"freight\": \"6072536.34\",\n      \"cargo\": {\n        \"cargoType\": \"<string>\",\n        \"cost\": \"97597.83\",\n        \"volume\": \"<float>\",\n        \"weight\": \"<float>\"\n      },\n      \"trailerRequirements\": {\n        \"type\": \"REFRIGERATOR\",\n        \"loadingType\": \"SIDE\",\n        \"volume\": \"<float>\",\n        \"loadCapacity\": \"<float>\",\n        \"temperatureConditions\": {\n          \"temperatureFrom\": \"<integer>\",\n          \"temperatureTo\": \"<integer>\"\n        }\n      },\n      \"route\": {\n        \"waypointList\": [\n          {\n            \"address\": \"<string>\",\n            \"dateTimeEnd\": \"<string>\",\n            \"dateTimeStart\": \"<string>\",\n            \"type\": \"UNLOADING\",\n            \"coordinates\": {\n              \"latitude\": \"2525.6\",\n              \"longitude\": \"6457916.11\"\n            },\n            \"organizationId\": \"<uuid>\"\n          },\n          {\n            \"address\": \"<string>\",\n            \"dateTimeEnd\": \"<string>\",\n            \"dateTimeStart\": \"<string>\",\n            \"type\": \"UNLOADING\",\n            \"coordinates\": {\n              \"latitude\": \"53.58274\",\n              \"longitude\": \"034952158.1356079337\"\n            },\n            \"organizationId\": \"<uuid>\"\n          }\n        ]\n      },\n      \"transportationType\": \"INTERCITY\",\n      \"sourceNumber\": \"<string>\",\n      \"comment\": \"<string>\"\n    },\n    {\n      \"freight\": \"79035167573.04\",\n      \"cargo\": {\n        \"cargoType\": \"<string>\",\n        \"cost\": \"15036654.69\",\n        \"volume\": \"<float>\",\n        \"weight\": \"<float>\"\n      },\n      \"trailerRequirements\": {\n        \"type\": \"ISOTHERMAL\",\n        \"loadingType\": \"REAR\",\n        \"volume\": \"<float>\",\n        \"loadCapacity\": \"<float>\",\n        \"temperatureConditions\": {\n          \"temperatureFrom\": \"<integer>\",\n          \"temperatureTo\": \"<integer>\"\n        }\n      },\n      \"route\": {\n        \"waypointList\": [\n          {\n            \"address\": \"<string>\",\n            \"dateTimeEnd\": \"<string>\",\n            \"dateTimeStart\": \"<string>\",\n            \"type\": \"LOADING\",\n            \"coordinates\": {\n              \"latitude\": \"34961.426\",\n              \"longitude\": \"2393615739.8878113625\"\n            },\n            \"organizationId\": \"<uuid>\"\n          },\n          {\n            \"address\": \"<string>\",\n            \"dateTimeEnd\": \"<string>\",\n            \"dateTimeStart\": \"<string>\",\n            \"type\": \"LOADING\",\n            \"coordinates\": {\n              \"latitude\": \"4174179556.5483149\",\n              \"longitude\": \"05314074.002573243\"\n            },\n            \"organizationId\": \"<uuid>\"\n          }\n        ]\n      },\n      \"transportationType\": \"INTERCITY\",\n      \"sourceNumber\": \"<string>\",\n      \"comment\": \"<string>\"\n    }\n  ]\n}"
+								}
+							]
+						}
+					]
 				}
 			]
 		}
@@ -633,8 +814,8 @@
 		"type": "oauth2",
 		"oauth2": [
 			{
-				"key": "tokenName",
-				"value": "modulith_test_token",
+				"key": "scope",
+				"value": "offline_access",
 				"type": "string"
 			},
 			{
@@ -645,21 +826,6 @@
 			{
 				"key": "username",
 				"value": "test",
-				"type": "string"
-			},
-			{
-				"key": "grant_type",
-				"value": "password_credentials",
-				"type": "string"
-			},
-			{
-				"key": "scope",
-				"value": "offline_access",
-				"type": "string"
-			},
-			{
-				"key": "client_authentication",
-				"value": "body",
 				"type": "string"
 			},
 			{
@@ -675,6 +841,21 @@
 			{
 				"key": "accessTokenUrl",
 				"value": "localhost:8180/realms/modulith/protocol/openid-connect/token",
+				"type": "string"
+			},
+			{
+				"key": "grant_type",
+				"value": "password_credentials",
+				"type": "string"
+			},
+			{
+				"key": "authUrl",
+				"value": "localhost:8180/realms/modulith/protocol/openid-connect/token",
+				"type": "string"
+			},
+			{
+				"key": "tokenName",
+				"value": "modulith_test_token",
 				"type": "string"
 			},
 			{

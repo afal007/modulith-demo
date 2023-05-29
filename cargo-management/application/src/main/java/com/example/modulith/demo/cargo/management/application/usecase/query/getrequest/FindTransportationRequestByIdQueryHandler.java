@@ -30,6 +30,8 @@ public class FindTransportationRequestByIdQueryHandler {
     ) {
         return transportationRequestDAO.findById(findTransportationRequestByIdQuery.id()).map(e -> {
             TransportationRequestDTO dto = new TransportationRequestDTO();
+            dto.setId(e.getId());
+
             CargoDTO cargoDTO = new CargoDTO();
             cargoDTO.setCargoType(e.getCargoType());
             cargoDTO.setCost(e.getCargoCost().toString());
@@ -41,6 +43,7 @@ public class FindTransportationRequestByIdQueryHandler {
                 TransportationRequestDTO.TransportationTypeEnum.fromValue(e.getTransportationType()));
 
             dto.setFreight(e.getFreight().toString());
+            dto.setCurrencyCode(e.getCurrencyCode());
 
             TrailerRequirementsDTO trailerRequirementsDTO = new TrailerRequirementsDTO();
             trailerRequirementsDTO.setType(TrailerRequirementsDTO.TypeEnum.fromValue(e.getTrailerType()));

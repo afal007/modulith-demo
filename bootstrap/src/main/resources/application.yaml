@@ -96,3 +96,5 @@ logging:
   level:
     root: INFO
     org.springframework.web.filter.CommonsRequestLoggingFilter: DEBUG
+    org.elasticsearch.client.RestClient: TRACE
+    tracer: TRACE
